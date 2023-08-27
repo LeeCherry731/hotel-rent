@@ -5,7 +5,9 @@ import Carousel from "../carousel.com";
 const MainLayout = () => {
   return (
     <div>
-      <h1 className=" text-white bg-green-500 text-end pr-5">088-0808-0666</h1>
+      <h1 className=" text-white text-end pr-5 bg-gradient-to-r from-indigo-400 from-10% via-sky-500 via-30% to-emerald-500 to-90%">
+        088-0808-0666
+      </h1>
       <NavBarCom />
       <div className="flex align-middle justify-center my-10">
         <h1 className="text-3xl text-slate-800">

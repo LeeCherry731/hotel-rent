@@ -1,12 +1,30 @@
+import react, { useState } from "react";
 import { ErrorMessage, Field, Form, Formik } from "formik";
-import react from "react";
 import * as Yup from "yup";
+import { auth } from "../configs/firebase.config";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 type Props = {};
 
 const RegisterPage = (props: Props) => {
-  const onSubmit = (val: typeof initialValues) => {
+  const navigate = useNavigate();
+  const [showP, setshowP] = useState(false);
+  const [showC, setshowC] = useState(false);
+
+  const onSubmit = async (val: typeof initialValues) => {
     console.log(val);
+    createUserWithEmailAndPassword(auth, val.email, val.password)
+      .then((res) => {
+        console.log(res);
+        alert(`${val.email} สมัครสมาชิกสำเร็จ`);
+        // localStorage.setItem("accessToken", res.)
+        navigate("/");
+      })
+      .catch((err) => {
+        alert(err.message);
+      });
   };
 
   const initialValues = {
@@ -61,12 +79,13 @@ const RegisterPage = (props: Props) => {
                 รหัสผ่าน
               </label>
               <Field
-                type="text"
+                type="password"
                 name="password"
-                className=" border-2 py-3 px-4 block w-full  rounded-md text-sm focus:border-green-500 focus:ring-green-500 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400"
+                className="relative border-2 py-3 px-4 block w-full  rounded-md text-sm focus:border-green-500 focus:ring-green-500 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400"
                 required
                 aria-describedby="hs-validation-name-success-helper"
               />
+
               <span className="text-red-600">
                 <ErrorMessage className="text-red-600" name="password" />
               </span>
@@ -77,12 +96,13 @@ const RegisterPage = (props: Props) => {
                 ยืนยันรหัสผ่าน
               </label>
               <Field
-                type="text"
+                type="password"
                 name="confirmPassword"
-                className=" border-2 py-3 px-4 block w-full rounded-md text-sm focus:border-green-500 focus:ring-green-500 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400"
+                className="relative border-2 py-3 px-4 block w-full rounded-md text-sm focus:border-green-500 focus:ring-green-500 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400"
                 required
                 aria-describedby="hs-validation-name-success-helper"
               />
+
               <span className="text-red-600">
                 <ErrorMessage className="text-red-600" name="confirmPassword" />
               </span>

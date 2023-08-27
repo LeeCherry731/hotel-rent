@@ -1,14 +1,35 @@
+import { signOut } from "firebase/auth";
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import { auth } from "../configs/firebase.config";
 type Props = {};
 
 const NavBarCom = (props: Props) => {
   const [isOpen, setIsOpen] = useState(false);
 
+  const navigation = useNavigate();
+
   const toggle = () => {
     console.log(isOpen);
     setIsOpen(!isOpen);
   };
+
+  const toLoginPage = () => {
+    navigation("/auth/login");
+  };
+  const onSignOut = () => {
+    signOut(auth)
+      .then((res) => {
+        console.log(res);
+        alert(`ออกจากระบบ สำเร็จ`);
+        // localStorage.setItem("accessToken", res.)
+        navigation("/");
+      })
+      .catch((err) => {
+        alert(err.message);
+      });
+  };
+
   return (
     <header className="flex flex-wrap md:justify-start md:flex-nowrap z-50 w-full bg-white text-sm py-3 md:py-0 dark:bg-gray-800">
       <div
@@ -89,12 +110,21 @@ const NavBarCom = (props: Props) => {
                   Work
                 </p>
 
-                <button className="pt-3 md:pt-0">
-                  <NavLink to={"/auth/login"}>
-                    <p className="inline-flex justify-center items-center gap-x-2 text-center bg-blue-600 hover:bg-blue-700 border border-transparent text-white text-sm font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:ring-offset-white transition py-2.5 px-3 dark:focus:ring-offset-gray-800">
-                      เข้าสู่ระบบ
-                    </p>
-                  </NavLink>
+                <button
+                  onClick={toLoginPage}
+                  className="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800"
+                >
+                  <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+                    เข้าสู่ระบบ
+                  </span>
+                </button>
+                <button
+                  onClick={onSignOut}
+                  className="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-500 to-pink-500 group-hover:from-purple-500 group-hover:to-pink-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800"
+                >
+                  <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+                    ออกจากระบบ
+                  </span>
                 </button>
               </div>
             </div>

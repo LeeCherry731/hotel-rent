@@ -1,12 +1,26 @@
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import React from "react";
+import { useNavigate } from "react-router";
 import * as Yup from "yup";
+import { auth } from "../configs/firebase.config";
 
 type Props = {};
 
 const LoginPage = (props: Props) => {
+  const navigate = useNavigate();
   const onSubmit = (val: typeof initialValues) => {
     console.log(val);
+    signInWithEmailAndPassword(auth, val.email, val.password)
+      .then((res) => {
+        console.log(res);
+        alert(`${val.email} สำเร็จ`);
+        // localStorage.setItem("accessToken", res.)
+        navigate("/");
+      })
+      .catch((err) => {
+        alert(err.message);
+      });
   };
 
   const initialValues = {
@@ -54,7 +68,7 @@ const LoginPage = (props: Props) => {
             <Field
               type="text"
               name="password"
-              className=" border-2 py-3 px-4 block w-full border-green-500 rounded-md text-sm focus:border-green-500 focus:ring-green-500 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400"
+              className=" border-2 py-3 px-4 block w-full  rounded-md text-sm focus:border-green-500 focus:ring-green-500 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400"
               required
               aria-describedby="hs-validation-name-success-helper"
             />
