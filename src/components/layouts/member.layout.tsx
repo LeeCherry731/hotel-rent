@@ -3,7 +3,7 @@ import * as Yup from "yup";
 import React from "react";
 import TableCom from "../table.com";
 import TableTwoCom from "../tableTwo.com";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 
 type Props = {};
 
@@ -21,6 +21,7 @@ const MemberLayout = (props: Props) => {
     { key: "Option2", value: "Option 2" },
     { key: "Option3", value: "Option 3" },
   ];
+  const navigation = useNavigate();
 
   const initialValues = {
     name: "",
@@ -29,7 +30,9 @@ const MemberLayout = (props: Props) => {
     price: 0,
     phone: "",
   };
-
+  const toHomePage = () => {
+    navigation("/");
+  };
   const onSubmit = (values: typeof initialValues) => {
     console.log(values);
   };
@@ -42,10 +45,11 @@ const MemberLayout = (props: Props) => {
             Menu
           </h5>
           <button
+            onClick={toHomePage}
             type="button"
             data-drawer-hide="drawer-navigation"
             aria-controls="drawer-navigation"
-            className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 absolute top-2.5 right-2.5 inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
+            className="text-gray-400  border-slate-300 border-2 bg-gray-200 hover:bg-gray-400 hover:text-gray-900 rounded-lg text-sm p-1.5 absolute top-2.5 right-2.5 inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
           >
             <svg
               aria-hidden="true"

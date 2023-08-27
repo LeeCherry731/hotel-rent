@@ -5,9 +5,9 @@ import MemberLayout from "./components/layouts/member.layout";
 import AdminLayout from "./components/layouts/admin.layout";
 import AuthLayout from "./components/layouts/auth.layout";
 import RoomsPage from "./pages/member/rooms.page";
-import hotelsPage from "./pages/member/hotels.page";
 import MemberDashboard from "./pages/member/dashboard.page";
 import RegisterPage from "./pages/register.page";
+import HotelsPage from "./pages/member/hotels.page";
 
 const router = createBrowserRouter([
   {
@@ -39,7 +39,7 @@ const router = createBrowserRouter([
       },
       {
         path: "hotels",
-        Component: hotelsPage,
+        Component: HotelsPage,
       },
       {
         path: "rooms",
