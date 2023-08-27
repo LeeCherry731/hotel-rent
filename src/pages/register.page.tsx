@@ -1,113 +1,104 @@
-import React from "react";
+import { ErrorMessage, Field, Form, Formik } from "formik";
+import react from "react";
+import * as Yup from "yup";
 
 type Props = {};
 
 const RegisterPage = (props: Props) => {
-  return (
-    <div className="h-full bg-white rounded-md p-5 border-1 mt-32 md:mx-40 sm:mx-10">
-      <div>
-        <h1 className="block text-lg mb-2 dark:text-white">สมัครสมาชิก</h1>
-        <hr className="my-4" />
-        <label className="block text-sm font-medium mb-2 dark:text-white">
-          อีเมล
-        </label>
-        <div className="relative">
-          <input
-            type="text"
-            id="hs-validation-name-error"
-            name="hs-validation-name-error"
-            className="border-2 py-3 px-4 block w-full border-red-500 rounded-md text-sm focus:border-red-500 focus:ring-red-500 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400"
-            required
-            aria-describedby="hs-validation-name-error-helper"
-          />
-          <div className="absolute inset-y-0 right-0 flex items-center pointer-events-none pr-3">
-            <svg
-              className="h-5 w-5 text-red-500"
-              width="16"
-              height="16"
-              fill="currentColor"
-              viewBox="0 0 16 16"
-              aria-hidden="true"
-            >
-              <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4zm.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" />
-            </svg>
-          </div>
-        </div>
-        <p
-          className="text-sm text-red-600 mt-2"
-          id="hs-validation-name-error-helper"
-        >
-          Please enter a valid email address.
-        </p>
-      </div>
+  const onSubmit = (val: typeof initialValues) => {
+    console.log(val);
+  };
 
-      <div>
-        <label className="block text-sm font-medium mb-2 dark:text-white">
-          รหัสผ่าน
-        </label>
-        <div className="relative">
-          <input
-            type="text"
-            id="hs-validation-name-success"
-            name="hs-validation-name-success"
-            className=" border-2 py-3 px-4 block w-full border-green-500 rounded-md text-sm focus:border-green-500 focus:ring-green-500 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400"
-            required
-            aria-describedby="hs-validation-name-success-helper"
-          />
-          <div className="absolute inset-y-0 right-0 flex items-center pointer-events-none pr-3">
-            <svg
-              className="h-5 w-5 text-green-500"
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              fill="currentColor"
-              viewBox="0 0 16 16"
+  const initialValues = {
+    email: "",
+    password: "",
+    confirmPassword: "",
+  };
+
+  const validationSchema = Yup.object({
+    email: Yup.string()
+      .email("กรุณากรอกอีเมลให้ถูกต้อง")
+      .required("กรุณากรอกอีเมล"),
+    password: Yup.string()
+      .matches(/[a-zA-Z]/, "Password can only contain Latin letters.")
+      .required("กรุณากรอกรหัสผ่าน"),
+    confirmPassword: Yup.string()
+      .oneOf([Yup.ref("password")], "รหัสผ่านไม่ตรงกัน")
+      .required("กรุณากรอกรหัสผ่าน"),
+  });
+
+  return (
+    <>
+      <Formik
+        initialValues={initialValues}
+        onSubmit={onSubmit}
+        validationSchema={validationSchema}
+      >
+        <Form>
+          <div className="h-full bg-white rounded-md p-5 border-1 mt-32 md:mx-40 sm:mx-10">
+            <div className="mt-2">
+              <h1 className="block text-2xl mb-2 text-slate-700">
+                สมัครสมาชิก
+              </h1>
+              <hr className="my-4" />
+              <label className="block text-sm font-medium mb-2 text-slate-700 ">
+                อีเมล
+              </label>
+              <Field
+                type="text"
+                name="email"
+                className="border-2 py-3 px-4 block w-full  rounded-md text-sm focus:border-red-500 focus:ring-red-500 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400"
+                required
+                aria-describedby="hs-validation-name-error-helper"
+              />
+              <span className="text-red-600">
+                <ErrorMessage name="email" />
+              </span>
+            </div>
+
+            <div className="mt-2">
+              <label className="block text-sm font-medium mb-2 text-slate-700">
+                รหัสผ่าน
+              </label>
+              <Field
+                type="text"
+                name="password"
+                className=" border-2 py-3 px-4 block w-full  rounded-md text-sm focus:border-green-500 focus:ring-green-500 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400"
+                required
+                aria-describedby="hs-validation-name-success-helper"
+              />
+              <span className="text-red-600">
+                <ErrorMessage className="text-red-600" name="password" />
+              </span>
+            </div>
+
+            <div className="mt-2">
+              <label className="block text-sm font-medium mb-2 text-slate-700">
+                ยืนยันรหัสผ่าน
+              </label>
+              <Field
+                type="text"
+                name="confirmPassword"
+                className=" border-2 py-3 px-4 block w-full rounded-md text-sm focus:border-green-500 focus:ring-green-500 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400"
+                required
+                aria-describedby="hs-validation-name-success-helper"
+              />
+              <span className="text-red-600">
+                <ErrorMessage className="text-red-600" name="confirmPassword" />
+              </span>
+            </div>
+
+            <button
+              type="submit"
+              className="mt-5 text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
             >
-              <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z" />
-            </svg>
+              เข้าสู่ระบบ
+            </button>
           </div>
-        </div>
-        <p
-          className="text-sm text-green-600 mt-2"
-          id="hs-validation-name-success-helper"
-        >
-          Looks good!
-        </p>
-      </div>
-      <div>
-        <label className="block text-sm font-medium mb-2 dark:text-white">
-          รหัสผ่าน
-        </label>
-        <div className="relative">
-          <input
-            type="text"
-            id="hs-validation-name-success"
-            name="hs-validation-name-success"
-            className=" border-2 py-3 px-4 block w-full border-green-500 rounded-md text-sm focus:border-green-500 focus:ring-green-500 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400"
-            required
-            aria-describedby="hs-validation-name-success-helper"
-          />
-          <div className="absolute inset-y-0 right-0 flex items-center pointer-events-none pr-3">
-            <svg
-              className="h-5 w-5 text-green-500"
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              fill="currentColor"
-              viewBox="0 0 16 16"
-            >
-              <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z" />
-            </svg>
-          </div>
-        </div>
-        <p
-          className="text-sm text-green-600 mt-2"
-          id="hs-validation-name-success-helper"
-        >
-          Looks good!
-        </p>
-      </div>
-    </div>
+        </Form>
+      </Formik>
+      ;
+    </>
   );
 };
 

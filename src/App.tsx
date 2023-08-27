@@ -1,15 +1,13 @@
-import {
-  RouterProvider,
-  createBrowserRouter,
-  redirect,
-} from "react-router-dom";
-import { fakeAuthProvider } from "./services/auth";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import MainLayout from "./components/layouts/main.layout";
 import LoginPage from "./pages/login.page";
-import RegisterPage from "./pages/register.page";
 import MemberLayout from "./components/layouts/member.layout";
 import AdminLayout from "./components/layouts/admin.layout";
 import AuthLayout from "./components/layouts/auth.layout";
+import RoomsPage from "./pages/member/rooms.page";
+import hotelsPage from "./pages/member/hotels.page";
+import MemberDashboard from "./pages/member/dashboard.page";
+import RegisterPage from "./pages/register.page";
 
 const router = createBrowserRouter([
   {
@@ -34,19 +32,33 @@ const router = createBrowserRouter([
   {
     path: "member",
     Component: MemberLayout,
+    children: [
+      {
+        path: "",
+        Component: MemberDashboard,
+      },
+      {
+        path: "hotels",
+        Component: hotelsPage,
+      },
+      {
+        path: "rooms",
+        Component: RoomsPage,
+      },
+    ],
   },
   {
     path: "admin",
     Component: AdminLayout,
   },
-  {
-    path: "/logout",
-    async action() {
-      // We signout in a "resource route" that we can hit from a fetcher.Form
-      await fakeAuthProvider.signout();
-      return redirect("/");
-    },
-  },
+  // {
+  //   path: "/logout",
+  //   async action() {
+  //     // We signout in a "resource route" that we can hit from a fetcher.Form
+  //     // await fakeAuthProvider.signout();
+  //     return redirect("/");
+  //   },
+  // },
 ]);
 
 function App() {
