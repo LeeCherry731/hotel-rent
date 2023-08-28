@@ -25,3 +25,4 @@ export const storage = getStorage(app);
 
 export const dbHotels = collection(db, "hotels");
 export const dbRooms = collection(db, "rooms");
+export const dbUsers = collection(db, "users");

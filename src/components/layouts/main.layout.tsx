@@ -199,12 +199,6 @@ const Table = () => {
                       >
                         Address
                       </th>
-                      <th
-                        scope="col"
-                        className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase"
-                      >
-                        Action
-                      </th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
@@ -228,14 +222,6 @@ const Table = () => {
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
                         New York No. 1 Lake Park
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                        <a
-                          className="text-blue-500 hover:text-blue-700"
-                          href="#"
-                        >
-                          Delete
-                        </a>
-                      </td>
                     </tr>
 
                     <tr>
@@ -257,14 +243,6 @@ const Table = () => {
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
                         London No. 1 Lake Park
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                        <a
-                          className="text-blue-500 hover:text-blue-700"
-                          href="#"
-                        >
-                          Delete
-                        </a>
                       </td>
                     </tr>
 
@@ -288,14 +266,6 @@ const Table = () => {
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
                         Sidney No. 1 Lake Park
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                        <a
-                          className="text-blue-500 hover:text-blue-700"
-                          href="#"
-                        >
-                          Delete
-                        </a>
-                      </td>
                     </tr>
 
                     <tr>
@@ -318,14 +288,6 @@ const Table = () => {
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
                         LA No. 1 Lake Park
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                        <a
-                          className="text-blue-500 hover:text-blue-700"
-                          href="#"
-                        >
-                          Delete
-                        </a>
-                      </td>
                     </tr>
 
                     <tr>
@@ -347,14 +309,6 @@ const Table = () => {
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
                         Melbourne No. 1 Lake Park
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                        <a
-                          className="text-blue-500 hover:text-blue-700"
-                          href="#"
-                        >
-                          Delete
-                        </a>
                       </td>
                     </tr>
                   </tbody>

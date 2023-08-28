@@ -8,6 +8,7 @@ import RoomsPage from "./pages/member/rooms.page";
 import MemberDashboard from "./pages/member/dashboard.page";
 import RegisterPage from "./pages/register.page";
 import HotelsPage from "./pages/member/hotels.page";
+import HotelsAddPage from "./pages/member/hotels-add.page";
 
 const router = createBrowserRouter([
   {
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
       {
         path: "hotels",
         Component: HotelsPage,
+      },
+      {
+        path: "hotels/add",
+        Component: HotelsAddPage,
       },
       {
         path: "rooms",

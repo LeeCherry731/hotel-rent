@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { dbHotels } from "../configs/firebase.config";
 import { getDocs } from "firebase/firestore";
+import { Link, NavLink } from "react-router-dom";
 
 type Props = {};
 
-const TableTwoCom = (props: Props) => {
+const TableHotel = (props: Props) => {
   const [hotels, setHotels] = useState<any[]>([]);
 
   const getHotels = async () => {
@@ -24,20 +25,22 @@ const TableTwoCom = (props: Props) => {
   return (
     <>
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg p-4 bg-white">
+        <div className="flex justify-end">
+          <Link to={"add"}>
+            <button
+              type="button"
+              className="place-self-end text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+            >
+              + Add
+            </button>
+          </Link>
+        </div>
+
         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
               <th scope="col" className="p-4">
-                <div className="flex items-center">
-                  <input
-                    id="checkbox-all-search"
-                    type="checkbox"
-                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                  />
-                  <label htmlFor="checkbox-all-search" className="sr-only">
-                    checkbox
-                  </label>
-                </div>
+                No.
               </th>
               <th scope="col" className="px-6 py-3">
                 Image
@@ -60,23 +63,11 @@ const TableTwoCom = (props: Props) => {
             </tr>
           </thead>
           <tbody>
-            {hotels.map((e) => {
+            {hotels.map((e, i) => {
               return (
                 <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                   <td className="w-4 p-4">
-                    <div className="flex items-center">
-                      <input
-                        id="checkbox-table-search-2"
-                        type="checkbox"
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                      />
-                      <label
-                        htmlFor="checkbox-table-search-2"
-                        className="sr-only"
-                      >
-                        checkbox
-                      </label>
-                    </div>
+                    <div className="flex items-center">{i + 1}</div>
                   </td>
                   <th
                     scope="row"
@@ -219,4 +210,4 @@ const TableTwoCom = (props: Props) => {
   );
 };
 
-export default TableTwoCom;
+export default TableHotel;

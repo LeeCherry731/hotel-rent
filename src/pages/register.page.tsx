@@ -1,10 +1,12 @@
 import react, { useState } from "react";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from "yup";
-import { auth } from "../configs/firebase.config";
+import { auth, dbUsers } from "../configs/firebase.config";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { addDoc } from "firebase/firestore";
+import { IAddUser } from "../interfaces/add-user.interface";
+import { Role } from "../interfaces/role.enum";
 
 type Props = {};
 
@@ -19,8 +21,22 @@ const RegisterPage = (props: Props) => {
       .then((res) => {
         console.log(res);
         alert(`${val.email} สมัครสมาชิกสำเร็จ`);
-        // localStorage.setItem("accessToken", res.)
-        navigate("/");
+
+        const user: IAddUser = {
+          email: val.email,
+          role: Role.member,
+          created_at: new Date(),
+          updated_at: new Date(),
+        };
+
+        addDoc(dbUsers, user)
+          .then((res) => {
+            console.log(res);
+            navigate("/");
+          })
+          .catch((err) => {
+            alert(err.message);
+          });
       })
       .catch((err) => {
         alert(err.message);

@@ -2,7 +2,7 @@ import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import React from "react";
 import TableCom from "../table.com";
-import TableTwoCom from "../tableTwo.com";
+import TableTwoCom from "../tableHotel";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 
 type Props = {};
@@ -39,7 +39,7 @@ const MemberLayout = (props: Props) => {
 
   return (
     <>
-      <div className="w-full flex gap-5 min-h-full">
+      <div className="w-full flex gap-5 min-h-screen">
         <div className="w-64 min-h-full h-auto  p-4 overflow-y-auto bg-white dark:bg-gray-800">
           <h5 className="text-base font-semibold text-gray-500 uppercase dark:text-gray-400">
             Menu
