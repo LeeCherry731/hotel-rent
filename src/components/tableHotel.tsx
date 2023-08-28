@@ -71,12 +71,12 @@ const TableHotel = (props: Props) => {
                   </td>
                   <th
                     scope="row"
-                    className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                    className="px-1 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                   >
-                    <figure className="max-h-[6rem]">
+                    <figure className="max-h-[10rem]">
                       <img
-                        className="h-auto max-h-[6rem]  rounded-lg"
-                        src={e.imgUrl}
+                        className="h-auto max-h-[10rem]  rounded-lg"
+                        src={e.imageUrls[0]}
                         alt="image description"
                       />
                     </figure>

@@ -38,10 +38,13 @@ const HotelsAddPage = (props: Props) => {
       const imageRef = ref(storage, `hotels/${Math.random() * 1000}${e.name}`);
       uploadBytes(imageRef, e)
         .then((snapshot) => {
-          getDownloadURL(snapshot.ref).then((url) => {
+          getDownloadURL(snapshot.ref).then(async (url) => {
             urls.push(url);
             console.log(i);
             if (files.length === i + 1) {
+              await new Promise((resolve, reject) => {
+                setTimeout(resolve, 1000);
+              });
               addHotel(urls, value);
               setIsLoading(false);
             }
