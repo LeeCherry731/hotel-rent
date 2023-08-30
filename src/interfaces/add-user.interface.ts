@@ -10,6 +10,8 @@ export interface IAddUser {
 export interface IAddHotel {
     name: string;
     phone: string;
+    line: string;
+
     address: string;
     latitude: number;
     longitude: number;

@@ -14,6 +14,7 @@ const HotelsAddPage = (props: Props) => {
     name: "",
     address: "",
     phone: "",
+    line: "",
     latitude: 0,
     longitude: 0,
 
@@ -77,6 +78,7 @@ const HotelsAddPage = (props: Props) => {
       name: value.name,
       address: value.address,
       phone: value.phone,
+      line: value.line,
       latitude: value.latitude,
       longitude: value.longitude,
 
@@ -151,15 +153,11 @@ const HotelsAddPage = (props: Props) => {
               <ErrorMessage name="address" />
             </div>
             <div>
-              <label
-                htmlFor="company"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              >
+              <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                 Phone
               </label>
               <Field
                 type="text"
-                id="company"
                 name="phone"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="phone"
@@ -168,15 +166,24 @@ const HotelsAddPage = (props: Props) => {
               <ErrorMessage name="phone" />
             </div>
             <div>
-              <label
-                htmlFor="phone"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              >
+              <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                Line
+              </label>
+              <Field
+                type="text"
+                name="line"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="line"
+                required
+              />
+              <ErrorMessage name="phone" />
+            </div>
+            <div>
+              <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                 Latitude
               </label>
               <Field
                 type="number"
-                id="phone"
                 name="latitude"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="latitude"
@@ -184,10 +191,7 @@ const HotelsAddPage = (props: Props) => {
               />
             </div>
             <div>
-              <label
-                htmlFor="website"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              >
+              <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                 Longitude
               </label>
               <Field
