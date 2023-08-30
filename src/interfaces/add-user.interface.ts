@@ -18,6 +18,19 @@ export interface IAddHotel {
     elevator: boolean;
     cctv: boolean;
     laundry_service: boolean;
+    wifi: boolean;
+    furniture: boolean;
+    air: boolean;
+
+    min_price: number;
+    max_price: number;
+
+    fan: boolean;
+    tv: boolean;
+    fridge: boolean;
+    pool: boolean;
+    gym: boolean;
+
     imageUrls: string[];
     created_at: Date;
     updated_at: Date;

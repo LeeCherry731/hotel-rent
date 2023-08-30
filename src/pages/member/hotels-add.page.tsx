@@ -10,25 +10,40 @@ const HotelsAddPage = (props: Props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [files, setFiles] = useState<File[]>([]);
 
-  const initialValues = {
+  const initialValues: IAddHotel = {
     name: "",
     address: "",
     phone: "",
     latitude: 0,
     longitude: 0,
+
+    min_price: 0,
+    max_price: 0,
+
     car_park: false,
     cctv: false,
     elevator: false,
     laundry_service: false,
     motorcycle_park: false,
+    air: false,
+    fan: false,
+    fridge: false,
+    furniture: false,
+    gym: false,
+    pool: false,
+    wifi: false,
+    tv: false,
+    imageUrls: [],
+    created_at: new Date(),
+    updated_at: new Date(),
   };
 
-  const onSubmit = (value: typeof initialValues) => {
+  const onSubmit = (value: IAddHotel) => {
     console.log(value);
     uploadFiles(value);
   };
 
-  const uploadFiles = async (value: typeof initialValues) => {
+  const uploadFiles = async (value: IAddHotel) => {
     setIsLoading(true);
     await new Promise((resolve, reject) => {
       setTimeout(resolve, 3000);
@@ -64,11 +79,24 @@ const HotelsAddPage = (props: Props) => {
       phone: value.phone,
       latitude: value.latitude,
       longitude: value.longitude,
+
+      min_price: value.min_price,
+      max_price: value.max_price,
+
       car_park: value.car_park,
       cctv: value.cctv,
       elevator: value.elevator,
       laundry_service: value.laundry_service,
       motorcycle_park: value.motorcycle_park,
+      wifi: value.wifi,
+      furniture: value.furniture,
+      air: value.air,
+      fan: value.fan,
+      tv: value.tv,
+      fridge: value.fridge,
+      pool: value.pool,
+      gym: value.gym,
+
       imageUrls: urls,
       created_at: new Date(),
       updated_at: new Date(),
@@ -170,15 +198,51 @@ const HotelsAddPage = (props: Props) => {
               />
             </div>
           </div>
+          <div className="grid gap-6 mb-6 md:grid-cols-2">
+            <div>
+              <label
+                htmlFor="min_price"
+                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >
+                ราคาต่ำที่สุด
+              </label>
+              <Field
+                type="number"
+                id="min_price"
+                name="min_price"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="1000"
+                required
+              />
+              <ErrorMessage name="min_price" />
+            </div>
+            <div>
+              <label
+                htmlFor="first_name"
+                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >
+                ราคาสูงที่สุด
+              </label>
+              <Field
+                type="number"
+                id="max_price"
+                name="max_price"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="100000"
+                required
+              />
+              <ErrorMessage name="max_price" />
+            </div>
+          </div>
 
           <div className="my-2 flex items-center pl-4 border border-gray-200 rounded dark:border-gray-700">
             <Field
               type="checkbox"
-              name="car_parkv"
+              name="car_park"
               className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
             />
             <label className="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-              car_park
+              ที่จอดรถ
             </label>
           </div>
           <div className="my-2 flex items-center pl-4 border border-gray-200 rounded dark:border-gray-700">
@@ -188,7 +252,7 @@ const HotelsAddPage = (props: Props) => {
               className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
             />
             <label className="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-              cctv
+              กล้องวงจรปิด (CCTV)
             </label>
           </div>
           <div className="my-2 flex items-center pl-4 border border-gray-200 rounded dark:border-gray-700">
@@ -198,7 +262,7 @@ const HotelsAddPage = (props: Props) => {
               className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
             />
             <label className="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-              elevator
+              ลิฟต์
             </label>
           </div>
           <div className="my-2 flex items-center pl-4 border border-gray-200 rounded dark:border-gray-700">
@@ -208,7 +272,7 @@ const HotelsAddPage = (props: Props) => {
               className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
             />
             <label className="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-              laundry_service
+              ร้านซัก-รีด / มีบริการเครื่องซักผ้า
             </label>
           </div>
           <div className="my-2 flex items-center pl-4 border border-gray-200 rounded dark:border-gray-700">
@@ -218,7 +282,87 @@ const HotelsAddPage = (props: Props) => {
               className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
             />
             <label className="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-              motorcycle_park
+              ที่จอดมอเตอร์ไซต์
+            </label>
+          </div>
+          <div className="my-2 flex items-center pl-4 border border-gray-200 rounded dark:border-gray-700">
+            <Field
+              type="checkbox"
+              name="wifi"
+              className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+            />
+            <label className="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+              อินเทอร์เน็ตไร้สาย (WIFI) ในห้อง
+            </label>
+          </div>
+          <div className="my-2 flex items-center pl-4 border border-gray-200 rounded dark:border-gray-700">
+            <Field
+              type="checkbox"
+              name="furniture"
+              className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+            />
+            <label className="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+              เฟอร์นิเจอร์-ตู้, เตียง
+            </label>
+          </div>
+          <div className="my-2 flex items-center pl-4 border border-gray-200 rounded dark:border-gray-700">
+            <Field
+              type="checkbox"
+              name="air"
+              className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+            />
+            <label className="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+              เครื่องปรับอากาศ
+            </label>
+          </div>
+          <div className="my-2 flex items-center pl-4 border border-gray-200 rounded dark:border-gray-700">
+            <Field
+              type="checkbox"
+              name="fan"
+              className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+            />
+            <label className="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+              พัดลม
+            </label>
+          </div>
+          <div className="my-2 flex items-center pl-4 border border-gray-200 rounded dark:border-gray-700">
+            <Field
+              type="checkbox"
+              name="tv"
+              className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+            />
+            <label className="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+              มี TV
+            </label>
+          </div>
+          <div className="my-2 flex items-center pl-4 border border-gray-200 rounded dark:border-gray-700">
+            <Field
+              type="checkbox"
+              name="fridge"
+              className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+            />
+            <label className="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+              ตู้เย็น
+            </label>
+          </div>
+          <div className="my-2 flex items-center pl-4 border border-gray-200 rounded dark:border-gray-700">
+            <Field
+              type="checkbox"
+              name="pool"
+              className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+            />
+            <label className="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+              สระว่ายน้ำ
+            </label>
+          </div>
+          <div className="my-2 flex items-center pl-4 border border-gray-200 rounded dark:border-gray-700">
+            <Field
+              type="checkbox"
+              name="gym"
+              className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+            />
+            <label className="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+              โรงยิม / ฟิตเนส
             </label>
           </div>
 
