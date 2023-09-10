@@ -12,9 +12,10 @@ export interface IAddHotel {
     phone: string;
     line: string;
 
+    map_url: string;
+
     address: string;
-    latitude: number;
-    longitude: number;
+
     motorcycle_park: boolean;
     car_park: boolean;
     elevator: boolean;

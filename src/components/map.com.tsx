@@ -13,7 +13,7 @@ const center = {
   lng: 99.3986862,
 };
 
-const MapCom = (props: Props) => {
+const GoogleMapShowHotel = (props: Props) => {
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: "AIzaSyBG1czcWgot1iEkNTFkz2Bg_BAZueBvaiM",
   });
@@ -49,4 +49,4 @@ const MapCom = (props: Props) => {
   );
 };
 
-export default React.memo(MapCom);
+export default GoogleMapShowHotel;

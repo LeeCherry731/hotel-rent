@@ -3,11 +3,19 @@ import MapCom from "../map.com";
 import Carousel from "../carousel.com";
 import TableHotelHome from "../tableHotelHome";
 import { useEffect, useState } from "react";
-import { getDocs } from "firebase/firestore";
+import { getDocs, increment } from "firebase/firestore";
 import { dbHotels } from "../../configs/firebase.config";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "../../stores/store";
+import { decrement, increment as i } from "../../stores/counters/counterSlice";
+import { useNavigate } from "react-router";
 
 const MainLayout = () => {
   const [hotels, setHotels] = useState<any[]>([]);
+
+  const count = useSelector((state: RootState) => state.counter.value);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const getHotels = async () => {
     const data = await getDocs(dbHotels);
@@ -31,15 +39,35 @@ const MainLayout = () => {
         <h1 className="text-3xl text-slate-800">
           รวมอพาร์ทเม้นท์ ที่พัก หอพัก ทั่วประเทศ
         </h1>
+        {/* <button
+          onClick={() => dispatch(i())}
+          type="button"
+          className="px-5 bg-fuchsia-400"
+        >
+          +
+        </button>
+         <p>{count}</p>
+        <button
+          onClick={() => dispatch(decrement())}
+          type="button"
+          className="px-5 bg-gray-500"
+        >
+          -
+        </button> */}
       </div>
       <div className="w-full bg-gray-500">
         <Carousel />
       </div>
-      <div className="w-full mt-20">
+      {/* <div className="w-full mt-20">
         <MapCom />
-      </div>
+      </div> */}
       <div className="flex flex-row mt-5">
-        <div className="basis-3/4">
+        <div
+          className="basis-3/4"
+          onClick={() => {
+            navigate("/hotels/search");
+          }}
+        >
           <TableHotelHome hotels={hotels} />;
           <br />
           <Content />

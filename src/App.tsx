@@ -8,12 +8,17 @@ import MemberDashboard from "./pages/member/dashboard.page";
 import RegisterPage from "./pages/register.page";
 import HotelsPage from "./pages/member/hotels.page";
 import HotelsAddPage from "./pages/member/hotels-add.page";
+import SearchHotelPage from "./pages/searchHotelPage";
 
 const router = createBrowserRouter([
   {
     id: "root",
     path: "/",
     Component: MainLayout,
+  },
+  {
+    path: "hotels/search",
+    Component: SearchHotelPage,
   },
   {
     path: "auth",

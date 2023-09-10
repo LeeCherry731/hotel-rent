@@ -4,6 +4,8 @@ import React, { useState } from "react";
 import { dbHotels, storage } from "../../configs/firebase.config";
 import { addDoc } from "firebase/firestore";
 import { IAddHotel } from "../../interfaces/add-user.interface";
+import GoogleMapShowHotel from "../../components/map.com";
+import MapAddHotel from "../../components/mapAddHotel";
 type Props = {};
 
 const HotelsAddPage = (props: Props) => {
@@ -15,8 +17,8 @@ const HotelsAddPage = (props: Props) => {
     address: "",
     phone: "",
     line: "",
-    latitude: 0,
-    longitude: 0,
+
+    map_url: "",
 
     min_price: 0,
     max_price: 0,
@@ -79,8 +81,7 @@ const HotelsAddPage = (props: Props) => {
       address: value.address,
       phone: value.phone,
       line: value.line,
-      latitude: value.latitude,
-      longitude: value.longitude,
+      map_url: value.map_url,
 
       min_price: value.min_price,
       max_price: value.max_price,
@@ -178,7 +179,7 @@ const HotelsAddPage = (props: Props) => {
               />
               <ErrorMessage name="phone" />
             </div>
-            <div>
+            {/* <div>
               <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                 Latitude
               </label>
@@ -200,7 +201,7 @@ const HotelsAddPage = (props: Props) => {
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="longitude"
               />
-            </div>
+            </div> */}
           </div>
           <div className="grid gap-6 mb-6 md:grid-cols-2">
             <div>
@@ -238,7 +239,24 @@ const HotelsAddPage = (props: Props) => {
               <ErrorMessage name="max_price" />
             </div>
           </div>
-
+          <div>
+            <label
+              htmlFor="first_name"
+              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            >
+              แผนที่ (Map Url)
+            </label>
+            <Field
+              type="url"
+              name="map_url"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder="www.google.com"
+              required
+            />
+            <ErrorMessage name="map_url" />
+          </div>
+          {/* <MapAddHotel /> */}
+          <br />
           <div className="my-2 flex items-center pl-4 border border-gray-200 rounded dark:border-gray-700">
             <Field
               type="checkbox"
