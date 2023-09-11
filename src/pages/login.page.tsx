@@ -1,14 +1,26 @@
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { ErrorMessage, Field, Form, Formik } from "formik";
-import React from "react";
 import { useNavigate } from "react-router";
 import * as Yup from "yup";
-import { auth } from "../configs/firebase.config";
+import { auth, dbUsers } from "../configs/firebase.config";
+import {
+  doc,
+  getDoc,
+  getDocs,
+  onSnapshot,
+  query,
+  where,
+} from "firebase/firestore";
+import { useDispatch } from "react-redux";
+import { setUser, userState } from "../stores/users/userSlice";
+import { Role } from "../interfaces/role.enum";
 
 type Props = {};
 
 const LoginPage = (props: Props) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const onSubmit = (val: typeof initialValues) => {
     console.log(val);
     signInWithEmailAndPassword(auth, val.email, val.password)
@@ -16,11 +28,53 @@ const LoginPage = (props: Props) => {
         console.log(res);
         alert(`${val.email} สำเร็จ`);
         // localStorage.setItem("accessToken", res.)
-        navigate("/");
+        getUser(val.email);
       })
       .catch((err) => {
         alert(err.message);
       });
+  };
+
+  const getUser = async (email: string) => {
+    const q = query(dbUsers, where("email", "==", email));
+
+    onSnapshot(q, (snapshot) => {
+      let user: any;
+      snapshot.docs.forEach((doc) => {
+        user = doc.data();
+      });
+
+      if (user === undefined) {
+        alert("ไม่พบข้อมูล user");
+      } else {
+        let role = Role.none;
+        switch (user.role) {
+          case "admin":
+            role = Role.admin;
+            break;
+          case "member":
+            role = Role.member;
+            break;
+          case "none":
+            role = Role.none;
+            break;
+
+          default:
+            break;
+        }
+        const userInfo = {
+          name: user.name,
+          email: user.email,
+          role: role,
+          phone: user.phone,
+          line: user.line,
+        };
+        console.log(userInfo);
+        console.log(user);
+        dispatch(setUser(userInfo));
+        navigate("/");
+      }
+    });
   };
 
   const initialValues = {
@@ -66,7 +120,7 @@ const LoginPage = (props: Props) => {
               รหัสผ่าน
             </label>
             <Field
-              type="text"
+              type="password"
               name="password"
               className=" border-2 py-3 px-4 block w-full  rounded-md text-sm focus:border-green-500 focus:ring-green-500 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400"
               required
@@ -83,6 +137,14 @@ const LoginPage = (props: Props) => {
           >
             เข้าสู่ระบบ
           </button>
+          {/* <button
+            onClick={() => {
+              getUser("b@b.com");
+            }}
+            className="mt-5 text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+          >
+            ddd
+          </button> */}
         </div>
       </Form>
     </Formik>

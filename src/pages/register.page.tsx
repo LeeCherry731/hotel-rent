@@ -4,17 +4,34 @@ import * as Yup from "yup";
 import { auth, dbUsers } from "../configs/firebase.config";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
-import { addDoc } from "firebase/firestore";
+import {
+  addDoc,
+  doc,
+  getDoc,
+  onSnapshot,
+  query,
+  where,
+} from "firebase/firestore";
 import { IAddUser } from "../interfaces/add-user.interface";
 import { Role } from "../interfaces/role.enum";
+import { setUser } from "../stores/users/userSlice";
+import { useDispatch } from "react-redux";
 
 type Props = {};
 
 const RegisterPage = (props: Props) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [showP, setshowP] = useState(false);
   const [showC, setshowC] = useState(false);
-
+  const initialValues = {
+    email: "",
+    name: "",
+    phone: "",
+    line: "",
+    password: "",
+    confirmPassword: "",
+  };
   const onSubmit = async (val: typeof initialValues) => {
     console.log(val);
     createUserWithEmailAndPassword(auth, val.email, val.password)
@@ -24,6 +41,9 @@ const RegisterPage = (props: Props) => {
 
         const user: IAddUser = {
           email: val.email,
+          name: val.name,
+          phone: val.phone,
+          line: val.line,
           role: Role.member,
           created_at: new Date(),
           updated_at: new Date(),
@@ -32,7 +52,7 @@ const RegisterPage = (props: Props) => {
         addDoc(dbUsers, user)
           .then((res) => {
             console.log(res);
-            navigate("/");
+            getUser(val.email);
           })
           .catch((err) => {
             alert(err.message);
@@ -42,17 +62,53 @@ const RegisterPage = (props: Props) => {
         alert(err.message);
       });
   };
+  const getUser = async (email: string) => {
+    const q = query(dbUsers, where("email", "==", email));
 
-  const initialValues = {
-    email: "",
-    password: "",
-    confirmPassword: "",
+    onSnapshot(q, (snapshot) => {
+      let user: any;
+      snapshot.docs.forEach((doc) => {
+        user = doc.data();
+      });
+
+      if (user === undefined) {
+        alert("ไม่พบข้อมูล user");
+      } else {
+        let role = Role.none;
+        switch (user.role) {
+          case "admin":
+            role = Role.admin;
+            break;
+          case "member":
+            role = Role.member;
+            break;
+          case "none":
+            role = Role.none;
+            break;
+
+          default:
+            break;
+        }
+        const userInfo = {
+          name: user.name ?? "",
+          email: user.email ?? "",
+          role: role,
+          phone: user.phone ?? "",
+          line: user.line ?? "",
+        };
+        dispatch(setUser(userInfo));
+        navigate("/");
+      }
+    });
   };
 
   const validationSchema = Yup.object({
     email: Yup.string()
       .email("กรุณากรอกอีเมลให้ถูกต้อง")
       .required("กรุณากรอกอีเมล"),
+    name: Yup.string().required("กรุณากรอกซื่อ"),
+    phone: Yup.string().required("กรุณากรอกเบอร์"),
+    line: Yup.string().required("กรุณากรอกไลน์ไอดี"),
     password: Yup.string()
       .matches(/[a-zA-Z]/, "Password can only contain Latin letters.")
       .required("กรุณากรอกรหัสผ่าน"),
@@ -87,6 +143,56 @@ const RegisterPage = (props: Props) => {
               />
               <span className="text-red-600">
                 <ErrorMessage name="email" />
+              </span>
+            </div>
+
+            <div className="mt-2">
+              <label className="block text-sm font-medium mb-2 text-slate-700">
+                ชื่อ - สกุล
+              </label>
+              <Field
+                type="text"
+                name="name"
+                className="relative border-2 py-3 px-4 block w-full  rounded-md text-sm focus:border-green-500 focus:ring-green-500 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400"
+                required
+                aria-describedby="hs-validation-name-success-helper"
+              />
+
+              <span className="text-red-600">
+                <ErrorMessage className="text-red-600" name="name" />
+              </span>
+            </div>
+            <div className="mt-2">
+              <label className="block text-sm font-medium mb-2 text-slate-700">
+                เบอร์
+              </label>
+              <Field
+                type="text"
+                name="phone"
+                className="relative border-2 py-3 px-4 block w-full  rounded-md text-sm focus:border-green-500 focus:ring-green-500 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400"
+                required
+                aria-describedby="hs-validation-name-success-helper"
+              />
+
+              <span className="text-red-600">
+                <ErrorMessage className="text-red-600" name="phone" />
+              </span>
+            </div>
+
+            <div className="mt-2">
+              <label className="block text-sm font-medium mb-2 text-slate-700">
+                ไลน์ไอดี
+              </label>
+              <Field
+                type="text"
+                name="line"
+                className="relative border-2 py-3 px-4 block w-full  rounded-md text-sm focus:border-green-500 focus:ring-green-500 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400"
+                required
+                aria-describedby="hs-validation-name-success-helper"
+              />
+
+              <span className="text-red-600">
+                <ErrorMessage className="text-red-600" name="line" />
               </span>
             </div>
 

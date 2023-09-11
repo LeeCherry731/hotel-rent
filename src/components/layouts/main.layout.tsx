@@ -88,8 +88,8 @@ const Content = () => {
       <h1 className="text-3xl">แนะนำ</h1>
       <br />
       <div className="grid  grid-cols-3 gap-4">
-        {hotals.map((e) => (
-          <Card />
+        {hotals.map((e, i) => (
+          <Card key={i} />
         ))}
       </div>
     </div>
@@ -101,8 +101,8 @@ const ContentCardMini = (props: { hotels: any[] }) => {
       <h1 className="text-3xl">ใหม่</h1>
       <br />
       <div className="  bg-white rounded-md flex flex-col">
-        {props.hotels.slice(0, 5).map((e) => (
-          <CardMini hotel={e} />
+        {props.hotels.slice(0, 5).map((e, i) => (
+          <CardMini key={i} hotel={e} />
         ))}
       </div>{" "}
     </div>

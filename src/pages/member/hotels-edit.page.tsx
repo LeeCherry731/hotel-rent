@@ -8,7 +8,7 @@ import GoogleMapShowHotel from "../../components/map.com";
 import MapAddHotel from "../../components/mapAddHotel";
 type Props = {};
 
-const HotelsAddPage = (props: Props) => {
+const HotelsEditPage = (props: Props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [files, setFiles] = useState<File[]>([]);
 
@@ -553,4 +553,4 @@ const HotelsAddPage = (props: Props) => {
   );
 };
 
-export default HotelsAddPage;
+export default HotelsEditPage;

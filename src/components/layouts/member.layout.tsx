@@ -4,6 +4,10 @@ import React from "react";
 import TableCom from "../table.com";
 import TableTwoCom from "../tableHotel";
 import { Link, Outlet, useNavigate } from "react-router-dom";
+import { signOut } from "firebase/auth";
+import { useDispatch } from "react-redux";
+import { logout } from "../../stores/users/userSlice";
+import { auth } from "../../configs/firebase.config";
 
 type Props = {};
 
@@ -22,7 +26,7 @@ const MemberLayout = (props: Props) => {
     { key: "Option3", value: "Option 3" },
   ];
   const navigation = useNavigate();
-
+  const dispatch = useDispatch();
   const initialValues = {
     name: "",
     type: "",
@@ -35,6 +39,27 @@ const MemberLayout = (props: Props) => {
   };
   const onSubmit = (values: typeof initialValues) => {
     console.log(values);
+  };
+
+  const onSignOut = () => {
+    signOut(auth)
+      .then((res) => {
+        console.log(res);
+        alert(`ออกจากระบบ สำเร็จ`);
+        // localStorage.setItem("accessToken", res.)
+        // const userInfo = {
+        //   name: "",
+        //   email: "",
+        //   role: Role.none,
+        //   phone: "",
+        //   line: "",
+        // };
+        dispatch(logout());
+        navigation("/");
+      })
+      .catch((err) => {
+        alert(err.message);
+      });
   };
 
   return (
@@ -59,9 +84,9 @@ const MemberLayout = (props: Props) => {
               xmlns="http://www.w3.org/2000/svg"
             >
               <path
-                fill-rule="evenodd"
+                fillRule="evenodd"
                 d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                clip-rule="evenodd"
+                clipRule="evenodd"
               ></path>
             </svg>
             <span className="sr-only">Close menu</span>
@@ -100,7 +125,7 @@ const MemberLayout = (props: Props) => {
                   >
                     <path d="M6.143 0H1.857A1.857 1.857 0 0 0 0 1.857v4.286C0 7.169.831 8 1.857 8h4.286A1.857 1.857 0 0 0 8 6.143V1.857A1.857 1.857 0 0 0 6.143 0Zm10 0h-4.286A1.857 1.857 0 0 0 10 1.857v4.286C10 7.169 10.831 8 11.857 8h4.286A1.857 1.857 0 0 0 18 6.143V1.857A1.857 1.857 0 0 0 16.143 0Zm-10 10H1.857A1.857 1.857 0 0 0 0 11.857v4.286C0 17.169.831 18 1.857 18h4.286A1.857 1.857 0 0 0 8 16.143v-4.286A1.857 1.857 0 0 0 6.143 10Zm10 0h-4.286A1.857 1.857 0 0 0 10 11.857v4.286c0 1.026.831 1.857 1.857 1.857h4.286A1.857 1.857 0 0 0 18 16.143v-4.286A1.857 1.857 0 0 0 16.143 10Z" />
                   </svg>
-                  <span className="flex-1 ml-3 whitespace-nowrap">Hotels</span>
+                  <span className="flex-1 ml-3 whitespace-nowrap">Hotels </span>
                 </Link>
               </li>
 
@@ -118,15 +143,13 @@ const MemberLayout = (props: Props) => {
                   >
                     <path
                       stroke="currentColor"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
                       d="M1 8h11m0 0L8 4m4 4-4 4m4-11h3a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-3"
                     />
                   </svg>
-                  <span className="flex-1 ml-3 whitespace-nowrap">
-                    Sign Out
-                  </span>
+                  <span className="flex-1 ml-3 whitespace-nowrap">ออก</span>
                 </Link>
               </li>
             </ul>

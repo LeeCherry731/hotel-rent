@@ -2,13 +2,18 @@ import { signOut } from "firebase/auth";
 import React, { useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { auth } from "../configs/firebase.config";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../stores/store";
+import { Role } from "../interfaces/role.enum";
+import { logout, setUser } from "../stores/users/userSlice";
 type Props = {};
 
 const NavBarCom = (props: Props) => {
   const [isOpen, setIsOpen] = useState(false);
+  const user = useSelector((state: RootState) => state.user);
 
   const navigation = useNavigate();
-
+  const dispatch = useDispatch();
   const toggle = () => {
     console.log(isOpen);
     setIsOpen(!isOpen);
@@ -26,6 +31,16 @@ const NavBarCom = (props: Props) => {
         console.log(res);
         alert(`ออกจากระบบ สำเร็จ`);
         // localStorage.setItem("accessToken", res.)
+        // const userInfo = {
+        //   name: "",
+        //   email: "",
+        //   role: Role.none,
+        //   phone: "",
+        //   line: "",
+        // };
+        dispatch(logout());
+        // console.log(userInfo);
+        console.log(user);
         navigation("/");
       })
       .catch((err) => {
@@ -74,7 +89,7 @@ const NavBarCom = (props: Props) => {
                   viewBox="0 0 16 16"
                 >
                   <path
-                    fill-rule="evenodd"
+                    fillRule="evenodd"
                     d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"
                   />
                 </svg>
@@ -115,31 +130,44 @@ const NavBarCom = (props: Props) => {
                 <p className="font-medium text-gray-800 hover:text-gray-600 py-3 md:py-6 dark:text-gray-200 dark:hover:text-gray-500">
                   Work
                 </p>
+                {user.info.email === "" ? (
+                  <button
+                    onClick={toLoginPage}
+                    className="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800"
+                  >
+                    <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+                      เข้าสู่ระบบ
+                    </span>
+                  </button>
+                ) : (
+                  <></>
+                )}
 
-                <button
-                  onClick={toLoginPage}
-                  className="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800"
-                >
-                  <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-                    เข้าสู่ระบบ
-                  </span>
-                </button>
-                <button
-                  onClick={onDashboard}
-                  className="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-500 to-pink-500 group-hover:from-purple-500 group-hover:to-pink-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800"
-                >
-                  <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-                    Dashboard
-                  </span>
-                </button>
-                <button
-                  onClick={onSignOut}
-                  className="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-500 to-pink-500 group-hover:from-purple-500 group-hover:to-pink-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800"
-                >
-                  <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-                    ออกจากระบบ
-                  </span>
-                </button>
+                {user.info.role === Role.member ? (
+                  <button
+                    onClick={onDashboard}
+                    className="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-500 to-pink-500 group-hover:from-purple-500 group-hover:to-pink-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800"
+                  >
+                    <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+                      Dashboard
+                    </span>
+                  </button>
+                ) : (
+                  <></>
+                )}
+
+                {user.info.email !== "" ? (
+                  <button
+                    onClick={onSignOut}
+                    className="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-500 to-pink-500 group-hover:from-purple-500 group-hover:to-pink-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800"
+                  >
+                    <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+                      ออกจากระบบ
+                    </span>
+                  </button>
+                ) : (
+                  <></>
+                )}
               </div>
             </div>
           </div>

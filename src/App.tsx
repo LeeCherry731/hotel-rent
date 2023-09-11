@@ -9,6 +9,7 @@ import RegisterPage from "./pages/register.page";
 import HotelsPage from "./pages/member/hotels.page";
 import HotelsAddPage from "./pages/member/hotels-add.page";
 import SearchHotelPage from "./pages/searchHotelPage";
+import HotelsEditPage from "./pages/member/hotels-edit.page";
 
 const router = createBrowserRouter([
   {
@@ -49,6 +50,10 @@ const router = createBrowserRouter([
       {
         path: "hotels/add",
         Component: HotelsAddPage,
+      },
+      {
+        path: "hotels/edit",
+        Component: HotelsEditPage,
       },
     ],
   },
