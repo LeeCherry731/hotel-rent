@@ -14,7 +14,7 @@ const initialState: { info: userState } = {
     info: {
         name: "",
         email: "",
-        role: Role.member,
+        role: Role.none,
         phone: "",
         line: "",
     }

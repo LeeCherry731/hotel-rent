@@ -11,7 +11,7 @@ type Props = {};
 const NavBarCom = (props: Props) => {
   const [isOpen, setIsOpen] = useState(false);
   const user = useSelector((state: RootState) => state.user);
-
+  console.log(user);
   const navigation = useNavigate();
   const dispatch = useDispatch();
   const toggle = () => {
@@ -143,7 +143,7 @@ const NavBarCom = (props: Props) => {
                   <></>
                 )}
 
-                {user.info.role === Role.member ? (
+                {user.info.role !== Role.none ? (
                   <button
                     onClick={onDashboard}
                     className="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-500 to-pink-500 group-hover:from-purple-500 group-hover:to-pink-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800"

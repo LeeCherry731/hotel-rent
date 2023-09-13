@@ -6,47 +6,51 @@ import { addDoc } from "firebase/firestore";
 import { IAddHotel } from "../../interfaces/add-user.interface";
 import GoogleMapShowHotel from "../../components/map.com";
 import MapAddHotel from "../../components/mapAddHotel";
+import { useLocation } from "react-router";
 type Props = {};
 
 const HotelsEditPage = (props: Props) => {
+  const location = useLocation();
+  const { hotel } = location.state;
+
   const [isLoading, setIsLoading] = useState(false);
   const [files, setFiles] = useState<File[]>([]);
 
   const initialValues: IAddHotel = {
-    name: "",
-    address: "",
-    phone: "",
-    line: "",
-    type: "",
-    map_url: "",
+    name: hotel.name,
+    address: hotel.address,
+    phone: hotel.phone,
+    line: hotel.line,
+    type: hotel.type,
+    map_url: hotel.map_url,
 
-    min_price: 0,
-    max_price: 0,
-    bail: 0,
-    prepay: 0,
-    electricity_bill: 0,
-    water_bill: 0,
+    min_price: hotel.min_price,
+    max_price: hotel.max_price,
+    bail: hotel.bail,
+    prepay: hotel.prepay,
+    electricity_bill: hotel.electricity_bill,
+    water_bill: hotel.water_bill,
 
-    promote: false,
+    promote: hotel.promote,
 
-    car_park: false,
-    water_heater: false,
-    pet: false,
-    cigarette: false,
-    security: false,
-    cctv: false,
-    elevator: false,
-    laundry_service: false,
-    motorcycle_park: false,
-    air: false,
-    fan: false,
-    fridge: false,
-    furniture: false,
-    wifi: false,
-    tv: false,
+    car_park: hotel.car_park,
+    water_heater: hotel.water_heater,
+    pet: hotel.pet,
+    cigarette: hotel.cigarette,
+    security: hotel.security,
+    cctv: hotel.cctv,
+    elevator: hotel.elevator,
+    laundry_service: hotel.laundry_service,
+    motorcycle_park: hotel.motorcycle_park,
+    air: hotel.air,
+    fan: hotel.fan,
+    fridge: hotel.fridge,
+    furniture: hotel.furniture,
+    wifi: hotel.wifi,
+    tv: hotel.tv,
 
-    imageUrls: [],
-    created_at: new Date(),
+    imageUrls: hotel.imageUrls,
+    created_at: hotel.created_at,
     updated_at: new Date(),
   };
 
@@ -462,7 +466,24 @@ const HotelsEditPage = (props: Props) => {
             </label>
           </div>
 
-          <div className="my-5">
+          <div className="mt-5">
+            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+              ประเภทหอพัง
+            </label>
+            <Field
+              as="select"
+              name="type"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            >
+              <option value="หอพักรวมชายหญิง" selected>
+                หอพักรวมชายหญิง
+              </option>
+              <option value="หอพักชายล้วน">หอพักชายล้วน</option>
+              <option value="หอพักหญิงล้วน">หอพักหญิงล้วน</option>
+            </Field>
+          </div>
+
+          <div className="my-8">
             <label className="relative inline-flex items-center mr-5 cursor-pointer">
               <input
                 type="checkbox"
@@ -475,6 +496,25 @@ const HotelsEditPage = (props: Props) => {
                 แนะนำ
               </span>
             </label>
+          </div>
+
+          <div className="p-5 grid grid-cols-3 gap-4 place-content-center">
+            {files === null ? (
+              <></>
+            ) : (
+              hotel.imageUrls.map((e: any, i: number) => {
+                return (
+                  <>
+                    <img
+                      key={i}
+                      className="h-auto rounded-lg"
+                      src={e}
+                      alt="image description"
+                    />
+                  </>
+                );
+              })
+            )}
           </div>
 
           <div className="p-5 grid grid-cols-3 gap-4 place-content-center">
@@ -544,7 +584,7 @@ const HotelsEditPage = (props: Props) => {
               type="submit"
               className="text-white mt-5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
             >
-              Add
+              แก้ไข
             </button>
           )}
         </Form>
