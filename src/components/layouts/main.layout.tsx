@@ -90,6 +90,15 @@ const Content = (props: { hotels: any[] }) => {
   );
 };
 const ContentCardMini = (props: { hotels: any[] }) => {
+  if (props.hotels.length === 0) {
+    return (
+      <div className="mx-5 bg-white p-5 rounded-md min-h-[20rem]">
+        <h1 className="text-3xl">ใหม่</h1>
+        <h1 className="mt-10">ไม่รายการใหม่</h1>
+      </div>
+    );
+  }
+
   return (
     <div className="mx-5 bg-white p-5 rounded-md">
       <h1 className="text-3xl">ใหม่</h1>
@@ -125,9 +134,61 @@ const Card = (props: { hotel: any }) => {
               <p className="mt-1 text-sm line-clamp-4 text-gray-800 dark:text-gray-400">
                 {e.address}
               </p>
-              <p className="mt-1 text-sm line-clamp-4 text-gray-800 dark:text-gray-400">
-                {e.phone}
+
+              <p className="text-xs">{e.type}</p>
+              <p className="text-xs">
+                ราคา {e.min_price} - {e.max_price}
               </p>
+
+              <a
+                className="text-xs text-blue-600 underline"
+                href={e.map_url}
+                target="_blank"
+              >
+                ดูแผนที่
+              </a>
+              <p className="text-xs">เบอร์ : {e.phone}</p>
+              <p className="text-xs">ไลน์ : {e.line}</p>
+            </div>
+            <div className="p-4 border-t sm:px-5 dark:border-gray-700">
+              <p className="text-xs text-gray-500 dark:text-gray-500">
+                อับเดตเมื่อ {date.toLocaleTimeString()}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
+
+const CardMini = (props: { hotel: any }) => {
+  const e = props.hotel;
+  const timeStamp = e.updated_at;
+  const date = new Date(timeStamp.seconds);
+  return (
+    <>
+      <a href={e.map_url} target="_blank">
+        <div className="bg-white mb-4 h-40 border rounded-xl shadow-sm sm:flex dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]">
+          <div>
+            <figure className="max-h-[6rem]">
+              <img
+                className="h-auto max-h-[6rem] min-w-[7rem] rounded-md ml-1 mt-1"
+                src={e.imageUrls[0]}
+                alt="image description"
+              />
+            </figure>
+            <div className="p-2">
+              <p className="text-xs">เบอร์ : {e.phone}</p>
+              <p className="text-xs">ไลน์ : {e.line}</p>
+            </div>
+          </div>
+
+          <div className="p-2 flex flex-wrap text-sm min-w-[7rem]">
+            <div className="p-1 flex flex-col h-full ">
+              <h3 className="text-lg font-bold text-gray-800 dark:text-white">
+                {e.name}
+              </h3>
 
               <p className="text-xs">{e.type}</p>
               <p className="text-xs">
@@ -140,45 +201,10 @@ const Card = (props: { hotel: any }) => {
               >
                 ดูแผนที่
               </a>
-            </div>
-            <div className="p-4 border-t sm:px-5 dark:border-gray-700">
-              <p className="text-xs text-gray-500 dark:text-gray-500">
-                {date.toLocaleTimeString()}
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </>
-  );
-};
-
-const CardMini = (props: { hotel: any }) => {
-  const e = props.hotel;
-  return (
-    <>
-      <a href={e.map_url} target="_blank">
-        <div className="bg-white mb-4 h-40 border rounded-xl shadow-sm sm:flex dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]">
-          <figure className="max-h-[6rem]">
-            <img
-              className="h-auto max-h-[6rem] min-w-[7rem] rounded-md ml-1 mt-1"
-              src={e.imageUrls[0]}
-              alt="image description"
-            />
-          </figure>
-          <div className="p-2 flex flex-wrap text-sm min-w-[7rem]">
-            <div className="p-1 flex flex-col h-full ">
-              <h3 className="text-lg font-bold text-gray-800 dark:text-white">
-                {e.name}
-              </h3>
-              <p className="mt-1 line-clamp-3 text-xs text-gray-800 dark:text-gray-400">
-                Some quick example text to build on the card title and make up
-                the bulk of the card's content.
-              </p>
 
               <div className="mt-5 sm:mt-auto">
                 <p className="text-xs text-gray-500 dark:text-gray-500">
-                  Last updated 5 mins ago
+                  อับเดตเมื่อ {date.toLocaleTimeString()}
                 </p>
               </div>
             </div>
