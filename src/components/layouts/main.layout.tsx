@@ -3,18 +3,16 @@ import MapCom from "../map.com";
 import Carousel from "../carousel.com";
 import TableHotelHome from "../tableHotelHome";
 import { useEffect, useState } from "react";
-import { getDocs, increment } from "firebase/firestore";
+import { getDocs } from "firebase/firestore";
 import { dbHotels } from "../../configs/firebase.config";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootState } from "../../stores/store";
-import { decrement, increment as i } from "../../stores/counters/counterSlice";
 import { useNavigate } from "react-router";
 
 const MainLayout = () => {
   const [hotels, setHotels] = useState<any[]>([]);
 
   const count = useSelector((state: RootState) => state.counter.value);
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const getHotels = async () => {
@@ -44,14 +42,14 @@ const MainLayout = () => {
         <Carousel />
       </div>
 
-      <div className="flex flex-row mt-5">
+      <div className="flex flex-row mt-5 max-w-[85rem] w-full mx-auto">
         <div className="basis-3/4">
           <div
             onClick={() => {
               navigate("/hotels/search");
             }}
           >
-            <TableHotelHome hotels={hotels} />;
+            <TableHotelHome hotels={hotels} />
           </div>
           <br />
           <Content hotels={hotels} />

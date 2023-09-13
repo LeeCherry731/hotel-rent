@@ -1,8 +1,8 @@
 import { Field, Formik, Form, ErrorMessage } from "formik";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import React, { useState } from "react";
-import { dbHotels, storage } from "../../configs/firebase.config";
-import { addDoc } from "firebase/firestore";
+import { db, dbHotels, storage } from "../../configs/firebase.config";
+import { addDoc, doc, serverTimestamp, updateDoc } from "firebase/firestore";
 import { IAddHotel } from "../../interfaces/add-user.interface";
 import GoogleMapShowHotel from "../../components/map.com";
 import MapAddHotel from "../../components/mapAddHotel";
@@ -17,6 +17,7 @@ const HotelsEditPage = (props: Props) => {
   const [files, setFiles] = useState<File[]>([]);
 
   const initialValues: IAddHotel = {
+    id: hotel.id,
     name: hotel.name,
     address: hotel.address,
     phone: hotel.phone,
@@ -51,11 +52,11 @@ const HotelsEditPage = (props: Props) => {
 
     imageUrls: hotel.imageUrls,
     created_at: hotel.created_at,
-    updated_at: new Date(),
+    updated_at: serverTimestamp(),
   };
 
   const onSubmit = (value: IAddHotel) => {
-    console.log(value);
+    // console.log(value);
     uploadFiles(value);
   };
 
@@ -76,7 +77,7 @@ const HotelsEditPage = (props: Props) => {
               await new Promise((resolve, reject) => {
                 setTimeout(resolve, 1000);
               });
-              addHotel(urls, value);
+              updateHotel(urls, value);
               setIsLoading(false);
             }
           });
@@ -85,11 +86,16 @@ const HotelsEditPage = (props: Props) => {
           alert(err.message);
         });
     });
+    if (files.length === 0) {
+      updateHotel(urls, value);
+    }
+    setIsLoading(false);
   };
 
-  const addHotel = async (urls: string[], value: typeof initialValues) => {
+  const updateHotel = async (urls: string[], value: typeof initialValues) => {
     console.log(urls);
     const hotel: IAddHotel = {
+      id: value.id,
       name: value.name,
       address: value.address,
       phone: value.phone,
@@ -123,14 +129,16 @@ const HotelsEditPage = (props: Props) => {
       tv: value.tv,
       fridge: value.fridge,
 
-      imageUrls: urls,
-      created_at: new Date(),
-      updated_at: new Date(),
+      imageUrls: [...urls, ...value.imageUrls],
+      created_at: value.created_at,
+      updated_at: serverTimestamp(),
     };
+    const hotelDoc = doc(db, "hotels", value.id);
+    console.log(hotelDoc);
 
-    addDoc(dbHotels, hotel)
+    updateDoc(hotelDoc, JSON.parse(JSON.stringify(hotel)))
       .then((res) => {
-        alert("เพิ่มข้อมูลสำเร็จ");
+        alert("แก้ไขข้อมูลสำเร็จ");
       })
       .catch((err) => {
         alert(err.message);
@@ -475,9 +483,7 @@ const HotelsEditPage = (props: Props) => {
               name="type"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             >
-              <option value="หอพักรวมชายหญิง" selected>
-                หอพักรวมชายหญิง
-              </option>
+              <option value="หอพักรวมชายหญิง">หอพักรวมชายหญิง</option>
               <option value="หอพักชายล้วน">หอพักชายล้วน</option>
               <option value="หอพักหญิงล้วน">หอพักหญิงล้วน</option>
             </Field>
@@ -566,7 +572,6 @@ const HotelsEditPage = (props: Props) => {
                   const files = [...e.target.files];
                   setFiles(files);
                 }}
-                required
               />
             </label>
           </div>

@@ -1,3 +1,4 @@
+import { FieldValue, serverTimestamp } from "firebase/firestore";
 import { Role } from "./role.enum";
 
 
@@ -11,6 +12,7 @@ export interface IAddUser {
     updated_at: Date;
 }
 export interface IAddHotel {
+    id: string;
     name: string;
     phone: string;
     line: string;
@@ -45,6 +47,6 @@ export interface IAddHotel {
     laundry_service: boolean;
 
     imageUrls: string[];
-    created_at: Date;
-    updated_at: Date;
+    created_at: FieldValue;
+    updated_at: FieldValue;
 }

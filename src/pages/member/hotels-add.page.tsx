@@ -2,10 +2,9 @@ import { Field, Formik, Form, ErrorMessage } from "formik";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import React, { useState } from "react";
 import { dbHotels, storage } from "../../configs/firebase.config";
-import { addDoc } from "firebase/firestore";
+import { addDoc, serverTimestamp } from "firebase/firestore";
 import { IAddHotel } from "../../interfaces/add-user.interface";
-import GoogleMapShowHotel from "../../components/map.com";
-import MapAddHotel from "../../components/mapAddHotel";
+import { uuid } from "uuidv4";
 type Props = {};
 
 const HotelsAddPage = (props: Props) => {
@@ -13,6 +12,7 @@ const HotelsAddPage = (props: Props) => {
   const [files, setFiles] = useState<File[]>([]);
 
   const initialValues: IAddHotel = {
+    id: "",
     name: "",
     address: "",
     phone: "",
@@ -46,8 +46,8 @@ const HotelsAddPage = (props: Props) => {
     tv: false,
 
     imageUrls: [],
-    created_at: new Date(),
-    updated_at: new Date(),
+    created_at: serverTimestamp(),
+    updated_at: serverTimestamp(),
   };
 
   const onSubmit = (value: IAddHotel) => {
@@ -86,6 +86,7 @@ const HotelsAddPage = (props: Props) => {
   const addHotel = async (urls: string[], value: typeof initialValues) => {
     console.log(urls);
     const hotel: IAddHotel = {
+      id: uuid(),
       name: value.name,
       address: value.address,
       phone: value.phone,
@@ -120,8 +121,8 @@ const HotelsAddPage = (props: Props) => {
       fridge: value.fridge,
 
       imageUrls: urls,
-      created_at: new Date(),
-      updated_at: new Date(),
+      created_at: serverTimestamp(),
+      updated_at: serverTimestamp(),
     };
 
     addDoc(dbHotels, hotel)
@@ -471,9 +472,7 @@ const HotelsAddPage = (props: Props) => {
               name="type"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             >
-              <option value="หอพักรวมชายหญิง" selected>
-                หอพักรวมชายหญิง
-              </option>
+              <option value="หอพักรวมชายหญิง">หอพักรวมชายหญิง</option>
               <option value="หอพักชายล้วน">หอพักชายล้วน</option>
               <option value="หอพักหญิงล้วน">หอพักหญิงล้วน</option>
             </Field>
