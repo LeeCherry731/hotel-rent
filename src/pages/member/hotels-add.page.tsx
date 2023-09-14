@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import { dbHotels, storage } from "../../configs/firebase.config";
 import { addDoc, serverTimestamp } from "firebase/firestore";
 import { IAddHotel } from "../../interfaces/add-user.interface";
-import { uuid } from "uuidv4";
 type Props = {};
 
 const HotelsAddPage = (props: Props) => {
@@ -86,7 +85,7 @@ const HotelsAddPage = (props: Props) => {
   const addHotel = async (urls: string[], value: typeof initialValues) => {
     console.log(urls);
     const hotel: IAddHotel = {
-      id: uuid(),
+      id: Math.random().toString(),
       name: value.name,
       address: value.address,
       phone: value.phone,

@@ -11,11 +11,9 @@ type Props = {};
 const NavBarCom = (props: Props) => {
   const [isOpen, setIsOpen] = useState(false);
   const user = useSelector((state: RootState) => state.user);
-  console.log(user);
   const navigation = useNavigate();
   const dispatch = useDispatch();
   const toggle = () => {
-    console.log(isOpen);
     setIsOpen(!isOpen);
   };
 

@@ -1,14 +1,55 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import NavBarCom from "../components/navbar.com";
+import { getDocs } from "firebase/firestore";
+import { dbHotels } from "../configs/firebase.config";
+import { useFormik } from "formik";
 
 type Props = {};
 
 const SearchHotelPage = (props: Props) => {
-  const hotals = [1, 2, 3, 4, 5, 6];
+  const [hotels, setHotels] = useState<any[]>([]);
+  const [hotelsD, setHotelsD] = useState<any[]>([]);
+
+  const getHotels = async () => {
+    const data = await getDocs(dbHotels);
+    setHotelsD(
+      data.docs.map((doc) => {
+        return { ...doc.data(), id: doc.id };
+      })
+    );
+    setHotels(
+      data.docs.map((doc) => {
+        return { ...doc.data(), id: doc.id };
+      })
+    );
+  };
+
+  const formik = useFormik({
+    initialValues: {
+      type: "",
+    },
+    onSubmit: (values) => {
+      alert(JSON.stringify(values, null, 2));
+    },
+  });
+
+  useEffect(() => {
+    getHotels();
+  }, []);
+
+  const onChangeFilter = () => {
+    setHotels(hotelsD);
+    const timer = setTimeout(() => {
+      console.log("onChange");
+      console.log(formik.values.type);
+      setHotels(hotelsD.filter((e) => e.type === formik.values.type));
+
+      clearTimeout(timer);
+    }, 200);
+  };
 
   return (
     <>
-      {/* <div className="bg-white w-full ">nav</div> */}
       <NavBarCom />
 
       <div className="w-full flex justify-center">
@@ -37,24 +78,27 @@ const SearchHotelPage = (props: Props) => {
 
           <div className="grid grid-cols-3 mt-5 gap-2">
             <div className="col-span-2">
-              {hotals.map((e) => (
+              {hotels.map((e) => (
                 <>
                   <div className="flex w-full h-32 gap-3">
-                    <img
-                      src="https://static.independent.co.uk/2023/03/24/09/Best%20New%20York%20boutique%20hotels.jpg?width=1200"
-                      alt=""
-                      className="w-28 h-28"
-                    />
+                    <img src={e.imageUrls[0]} alt="" className="w-28 h-28" />
                     <div>
-                      <h1 className="text-sky-500">
-                        อพาร์ทเม้นท์ หอพัก ย่าน วิทยาลัยพยาบาลบรมราชชนนีขอนแก่น
-                        : ชลพฤกษ์เลคไซด์
+                      <h1 className="text-sky-500">{e.name}</h1>
+                      <p className="text-sm text-gray-400">{e.address}</p>
+                      <h1>
+                        {e.min_price} - {e.max_price} บาท/เดือน
                       </h1>
-                      <p className="text-sm text-gray-400">
-                        ซ.บ้านกอก ถ.ริมบึงหนองโคตร บ้านเป็ด เมืองขอนแก่น ขอนแก่น
-                      </p>
-                      <h1>5,500 - 8,000 บาท/เดือน</h1>
-                      <h1>640 - 880 บาท/วัน</h1>
+                      <p className="text-xs">ประเภทหอพัก : {e.type}</p>
+
+                      <a
+                        className="text-xs text-blue-600 underline"
+                        href={e.map_url}
+                        target="_blank"
+                      >
+                        ดูแผนที่
+                      </a>
+                      <p className="text-xs">เบอร์ : {e.phone}</p>
+                      <p className="text-xs">ไลน์ : {e.line}</p>
                     </div>
                   </div>
                   <hr />
@@ -62,13 +106,18 @@ const SearchHotelPage = (props: Props) => {
               ))}
             </div>
             <div>
-              <p>filter</p>
+              <p>ค้นหา</p>
               <div>
                 <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                  ประเภทหอพัง
+                  ประเภทหอพัก
                 </label>
                 <select
                   id="countries"
+                  name="type"
+                  onChange={(e) => {
+                    formik.handleChange(e);
+                    onChangeFilter();
+                  }}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 >
                   <option value="หอพักรวมชายหญิง">หอพักรวมชายหญิง</option>
