@@ -9,6 +9,7 @@ type Props = {};
 const SearchHotelPage = (props: Props) => {
   const [hotels, setHotels] = useState<any[]>([]);
   const [hotelsD, setHotelsD] = useState<any[]>([]);
+  // let hotelsD: any[] = [];
 
   const getHotels = async () => {
     const data = await getDocs(dbHotels);
@@ -17,11 +18,8 @@ const SearchHotelPage = (props: Props) => {
         return { ...doc.data(), id: doc.id };
       })
     );
-    setHotels(
-      data.docs.map((doc) => {
-        return { ...doc.data(), id: doc.id };
-      })
-    );
+
+    setHotels(hotelsD);
     console.log(hotelsD);
   };
 
@@ -76,14 +74,7 @@ const SearchHotelPage = (props: Props) => {
           parseInt(e.max_price) <= values.range_max
         );
       });
-      // newHotels = newHotels.filter((e) => {
-      //   console.log(
-      //     `${e.max_price} <= ${values.range_max} : ${
-      //       parseInt(e.max_price) <= values.range_max
-      //     }`
-      //   );
-      //   return parseInt(e.max_price) <= values.range_max;
-      // });
+
       newHotels = newHotels.filter((e) => {
         return e.type === values.type;
       });
