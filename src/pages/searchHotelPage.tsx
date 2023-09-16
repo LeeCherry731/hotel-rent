@@ -3,6 +3,7 @@ import NavBarCom from "../components/navbar.com";
 import { getDocs } from "firebase/firestore";
 import { dbHotels } from "../configs/firebase.config";
 import { useFormik } from "formik";
+import Utils from "../utils/utils";
 
 type Props = {};
 
@@ -13,14 +14,13 @@ const SearchHotelPage = (props: Props) => {
 
   const getHotels = async () => {
     const data = await getDocs(dbHotels);
-    setHotelsD(
-      data.docs.map((doc) => {
-        return { ...doc.data(), id: doc.id };
-      })
-    );
+    const hotels = data.docs.map((doc) => {
+      return { ...doc.data(), id: doc.id };
+    });
+    setHotelsD(hotels);
 
-    setHotels(hotelsD);
-    console.log(hotelsD);
+    setHotels(hotels);
+    console.log(hotels);
   };
 
   const formik = useFormik({
@@ -32,7 +32,7 @@ const SearchHotelPage = (props: Props) => {
       line: "",
       map_url: "",
 
-      range_min: 1000,
+      range_min: 1,
       range_max: 10000,
       range: 0,
 
@@ -60,7 +60,7 @@ const SearchHotelPage = (props: Props) => {
       tv: false,
     },
     onSubmit: (values) => {
-      // console.log(values.type);
+      console.log(values);
       // console.log(values.range_min);
       // console.log(values.range_max);
 
@@ -79,7 +79,9 @@ const SearchHotelPage = (props: Props) => {
         return e.type === values.type;
       });
       newHotels = newHotels.filter((e) => {
-        return e.address.includes(values.address);
+        const eA = e.address.toLowerCase();
+        const eV = e.address.toLowerCase();
+        return eA.includes(eV);
       });
 
       if (values.car_park === true) {
@@ -178,7 +180,7 @@ const SearchHotelPage = (props: Props) => {
       <div className="w-full flex justify-center">
         <div className="bg-white w-full max-w-5xl rounded-lg mt-5 shadow-xl p-7">
           <div className="">
-            <h1 className="text-2xl">อพาร์ทเม้นท์ หอพัก ใกล้ </h1>
+            <h1 className="text-2xl">อพาร์ทเม้นท์ หอพัก ที่อยู่</h1>
             <div className="bg-zinc-100 w-full rounded-md p-3">
               <h1>ค้นหา ทั้งหมด ({hotelsD.length})</h1>
               <hr
@@ -192,15 +194,16 @@ const SearchHotelPage = (props: Props) => {
           <div className="grid grid-cols-3 mt-5 gap-2">
             <div className="col-span-2">
               {hotels.map((e) => (
-                <div key={e.name}>
+                <div key={e.id} className="py-2">
                   <div className="flex w-full  gap-3">
                     <img src={e.imageUrls[0]} alt="" className="w-28 h-28" />
-                    <div className="flex gap-2 align-top justify-start">
-                      <div>
+                    <div className="flex gap-5 align-top justify-start">
+                      <div className="bg-slate-50 rounded-md p-1">
                         <h1 className="text-sky-500">{e.name}</h1>
                         <p className="text-sm text-gray-400">{e.address}</p>
                         <h1>
-                          {e.min_price} - {e.max_price} บาท/เดือน
+                          {Utils.bath(e.min_price)} - {Utils.bath(e.max_price)}{" "}
+                          บาท/เดือน
                         </h1>
                         <p className="text-xs">ประเภทหอพัก : {e.type}</p>
                       </div>
@@ -217,52 +220,191 @@ const SearchHotelPage = (props: Props) => {
                         <p className="text-xs">ไลน์ : {e.line}</p>
                       </div>
                       <div>
-                        <p className="text-xs">min_price : {e.min_price}</p>
-                        <p className="text-xs">max_price : {e.max_price}</p>
-                        <p className="text-xs">bail : {e.bail.toString()}</p>
                         <p className="text-xs">
-                          prepay : {e.prepay.toString()}
+                          ราคาต่ำที่สุด : {Utils.bath(e.min_price)}
                         </p>
                         <p className="text-xs">
-                          electricity_bill : {e.electricity_bill.toString()}
+                          ราคาสูงที่สุด : {Utils.bath(e.max_price)}
+                        </p>
+                        <hr className="my-1" />
+
+                        <p className="text-xs">
+                          เงินประกัน : {Utils.bath(e.bail)}
                         </p>
                         <p className="text-xs">
-                          water_bill : {e.water_bill.toString()}
+                          จ่ายล่วงหน้า : {Utils.bath(e.prepay)}
                         </p>
                         <p className="text-xs">
-                          car_park : {e.car_park.toString()}
+                          ค่าไฟ :{Utils.bath(e.electricity_bill)}
                         </p>
                         <p className="text-xs">
-                          water_heater : {e.water_heater.toString()}
+                          ค่าน้ำ : {Utils.bath(e.water_bill)}
                         </p>
-                        <p className="text-xs">pet : {e.pet.toString()}</p>
-                        <p className="text-xs">
-                          cigarette : {e.cigarette.toString()}
-                        </p>
-                        <p className="text-xs">
-                          security : {e.security.toString()}
-                        </p>
-                        <p className="text-xs">cctv : {e.cctv.toString()}</p>
-                        <p className="text-xs">
-                          elevator : {e.elevator.toString()}
-                        </p>
-                        <p className="text-xs">
-                          laundry_service : {e.laundry_service.toString()}
-                        </p>
-                        <p className="text-xs">
-                          motorcycle_park : {e.motorcycle_park.toString()}
-                        </p>
-                        <p className="text-xs">air : {e.air.toString()}</p>
-                        <p className="text-xs">fan : {e.fan.toString()}</p>
-                        <p className="text-xs">
-                          fridge : {e.fridge.toString()}
-                        </p>
-                        <p className="text-xs">
-                          furniture : {e.furniture.toString()}
-                        </p>
-                        <p className="text-xs">wifi : {e.wifi.toString()}</p>
-                        <p className="text-xs">tv : {e.tv.toString()}</p>
                       </div>
+                    </div>
+                  </div>
+                  <div className="my-3 flex gap-10">
+                    <div>
+                      <p className="text-xs">
+                        {e.car_park ? (
+                          <div className="flex gap-2">
+                            <input type="checkbox" checked />
+                            <p>ที่จอดรถยนต์</p>
+                          </div>
+                        ) : (
+                          <p className="line-through">ที่จอดรถยนต์</p>
+                        )}
+                      </p>
+                      <p className="text-xs">
+                        {e.water_heater ? (
+                          <div className="flex gap-2">
+                            <input type="checkbox" checked />
+                            <p>เครื่องทำน้ำอุ่น</p>
+                          </div>
+                        ) : (
+                          <p className="line-through">เครื่องทำน้ำอุ่น</p>
+                        )}
+                      </p>
+                      <p className="text-xs">
+                        {e.pet ? (
+                          <div className="flex gap-2">
+                            <input type="checkbox" checked />
+                            <p>อนุญาตให้เลี้ยงสัตว์</p>
+                          </div>
+                        ) : (
+                          <p className="line-through">อนุญาตให้เลี้ยงสัตว์</p>
+                        )}
+                      </p>
+                      <p className="text-xs">
+                        {e.cigarette ? (
+                          <div className="flex gap-2">
+                            <input type="checkbox" checked />
+                            <p>อนุญาตให้สูบบุหรี่</p>
+                          </div>
+                        ) : (
+                          <p className="line-through">อนุญาตให้สูบบุหรี่</p>
+                        )}
+                      </p>
+                      <p className="text-xs">
+                        {e.security ? (
+                          <div className="flex gap-2">
+                            <input type="checkbox" checked />
+                            <p>ระบบรักษาความปลอดภัยคีร์การ์ด/สแกนลายนิ้วมือ</p>
+                          </div>
+                        ) : (
+                          <p className="line-through">
+                            ระบบรักษาความปลอดภัยคีร์การ์ด/สแกนลายนิ้วมือ
+                          </p>
+                        )}
+                      </p>
+                      <p className="text-xs">
+                        {e.cctv ? (
+                          <div className="flex gap-2">
+                            <input type="checkbox" checked />
+                            <p>กล้องวงจรปิด (CCTV)</p>
+                          </div>
+                        ) : (
+                          <p className="line-through">กล้องวงจรปิด (CCTV)</p>
+                        )}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-xs">
+                        {e.elevator ? (
+                          <div className="flex gap-2">
+                            <input type="checkbox" checked />
+                            <p>ลิฟต์</p>
+                          </div>
+                        ) : (
+                          <p className="line-through">ลิฟต์</p>
+                        )}
+                      </p>
+                      <p className="text-xs">
+                        {e.laundry_service ? (
+                          <div className="flex gap-2">
+                            <input type="checkbox" checked />
+                            <p>ร้านซัก-รีด / มีบริการเครื่องซักผ้า</p>
+                          </div>
+                        ) : (
+                          <p className="line-through">
+                            ร้านซัก-รีด / มีบริการเครื่องซักผ้า
+                          </p>
+                        )}
+                      </p>
+                      <p className="text-xs">
+                        {e.motorcycle_park ? (
+                          <div className="flex gap-2">
+                            <input type="checkbox" checked />
+                            <p>ที่จอดรถยนต์</p>
+                          </div>
+                        ) : (
+                          <p className="line-through">ที่จอดรถยนต์</p>
+                        )}
+                      </p>
+                      <p className="text-xs">
+                        {e.air ? (
+                          <div className="flex gap-2">
+                            <input type="checkbox" checked />
+                            <p>เครื่องปรับอากาศ</p>
+                          </div>
+                        ) : (
+                          <p className="line-through">เครื่องปรับอากาศ</p>
+                        )}
+                      </p>
+                      <p className="text-xs">
+                        {e.fan ? (
+                          <div className="flex gap-2">
+                            <input type="checkbox" checked />
+                            <p>พัดลม</p>
+                          </div>
+                        ) : (
+                          <p className="line-through">พัดลม</p>
+                        )}
+                      </p>
+                      <p className="text-xs">
+                        {e.fridge ? (
+                          <div className="flex gap-2">
+                            <input type="checkbox" checked />
+                            <p>ตู้เย็น</p>
+                          </div>
+                        ) : (
+                          <p className="line-through">ตู้เย็น</p>
+                        )}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-xs">
+                        {e.furniture ? (
+                          <div className="flex gap-2">
+                            <input type="checkbox" checked />
+                            <p>เฟอร์นิเจอร์-ตู้, เตียง</p>
+                          </div>
+                        ) : (
+                          <p className="line-through">
+                            เฟอร์นิเจอร์-ตู้, เตียง
+                          </p>
+                        )}
+                      </p>
+                      <p className="text-xs">
+                        {e.wifi ? (
+                          <div className="flex gap-2">
+                            <input type="checkbox" checked />
+                            <p>อินเทอร์เน็ตไวไฟ</p>
+                          </div>
+                        ) : (
+                          <p className="line-through">อินเทอร์เน็ตไวไฟ</p>
+                        )}
+                      </p>
+                      <p className="text-xs">
+                        {e.tv ? (
+                          <div className="flex gap-2">
+                            <input type="checkbox" checked />
+                            <p>ทีวี</p>
+                          </div>
+                        ) : (
+                          <p className="line-through">ทีวี</p>
+                        )}
+                      </p>
                     </div>
                   </div>
                   <hr />
@@ -339,16 +481,7 @@ const SearchHotelPage = (props: Props) => {
                   />
                 </div>
               </div>
-              <input
-                onChange={(e) => {
-                  formik.handleChange(e);
-                  onChangeFilter();
-                }}
-                id="large-range"
-                type="range"
-                name="range"
-                className="w-full h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer range-lg "
-              ></input>
+
               <div className="my-2 flex items-center pl-4 border border-gray-200 rounded ">
                 <input
                   onChange={(e) => {

@@ -68,7 +68,10 @@ const RegisterPage = (props: Props) => {
     onSnapshot(q, (snapshot) => {
       let user: any;
       snapshot.docs.forEach((doc) => {
-        user = doc.data();
+        user = {
+          id: doc.id,
+          ...doc.data(),
+        };
       });
 
       if (user === undefined) {
@@ -90,6 +93,7 @@ const RegisterPage = (props: Props) => {
             break;
         }
         const userInfo = {
+          id: user.id ?? "",
           name: user.name ?? "",
           email: user.email ?? "",
           role: role,

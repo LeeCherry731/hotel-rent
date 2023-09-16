@@ -13,6 +13,7 @@ export interface IAddUser {
 }
 export interface IAddHotel {
     id: string;
+    userId: string;
     name: string;
     phone: string;
     line: string;
@@ -23,6 +24,7 @@ export interface IAddHotel {
 
     promote: boolean;
 
+    price: number;
     min_price: number;
     max_price: number;
     bail: number;

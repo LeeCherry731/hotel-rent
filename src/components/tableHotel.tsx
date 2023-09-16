@@ -2,20 +2,24 @@ import React, { useEffect, useState } from "react";
 import { db, dbHotels } from "../configs/firebase.config";
 import { deleteDoc, doc, getDoc, getDocs } from "firebase/firestore";
 import { Link, NavLink } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "../stores/store";
 
 type Props = {};
 
 const TableHotel = (props: Props) => {
   const [hotels, setHotels] = useState<any[]>([]);
-
+  const user = useSelector((state: RootState) => state.user.info);
   const getHotels = async () => {
     const data = await getDocs(dbHotels);
-    setHotels(
-      data.docs.map((doc) => {
-        console.log(doc.data());
-        return { ...doc.data(), id: doc.id };
-      })
-    );
+    const hotels = data.docs.map((doc) => {
+      console.log(doc.data());
+      return { ...doc.data(), id: doc.id };
+    });
+    const newHotels = hotels.filter((e: any) => {
+      return e.userId === user.id;
+    });
+    setHotels(newHotels);
   };
 
   useEffect(() => {

@@ -1,11 +1,11 @@
 import { signOut } from "firebase/auth";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { auth } from "../configs/firebase.config";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../stores/store";
 import { Role } from "../interfaces/role.enum";
-import { logout, setUser } from "../stores/users/userSlice";
+import { logout, setDefaltUser, setUser } from "../stores/users/userSlice";
 type Props = {};
 
 const NavBarCom = (props: Props) => {
@@ -16,6 +16,10 @@ const NavBarCom = (props: Props) => {
   const toggle = () => {
     setIsOpen(!isOpen);
   };
+
+  useEffect(() => {
+    // dispatch(setDefaltUser());
+  }, []);
 
   const toLoginPage = () => {
     navigation("/auth/login");
@@ -47,7 +51,7 @@ const NavBarCom = (props: Props) => {
   };
 
   return (
-    <header className="flex flex-wrap md:justify-start md:flex-nowrap z-50 w-full bg-white text-sm py-3 md:py-0 dark:bg-gray-800">
+    <header className="flex flex-wrap md:justify-start md:flex-nowrap z-50 w-full bg-white text-sm py-3 md:py-0 ">
       <div
         className="max-w-[85rem] w-full mx-auto px-4 md:px-6 lg:px-8"
         aria-label="Global"
@@ -56,7 +60,7 @@ const NavBarCom = (props: Props) => {
           <div className="flex items-center justify-between">
             <NavLink to={"/"}>
               <p
-                className="flex-none text-xl font-semibold dark:text-white"
+                className="flex-none text-xl font-semibold "
                 aria-label="Brand"
               >
                 Brand
@@ -67,14 +71,14 @@ const NavBarCom = (props: Props) => {
                 navigation("/hotels/search");
               }}
               type="text"
-              className="mx-2 py-2 px-5 block w-full border-2 border-gray-40000 rounded-full text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
-              placeholder="Input text"
+              className="mx-2 py-2 px-5 block w-full border-2 border-gray-40000 rounded-full text-sm focus:border-blue-500 focus:ring-blue-500 "
+              placeholder="ค้นหาหอพัก"
             ></input>
             <div className="md:hidden">
               <button
                 type="button"
                 onClick={toggle}
-                className="hs-collapse-toggle p-2 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800"
+                className="hs-collapse-toggle p-2 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm "
                 data-hs-collapse="#navbar-collapse-with-animation"
                 aria-controls="navbar-collapse-with-animation"
                 aria-label="Toggle navigation"
@@ -111,29 +115,22 @@ const NavBarCom = (props: Props) => {
             }`}
           >
             <div className="overflow-hidden overflow-y-auto max-h-[75vh] scrollbar-y">
-              <div className="flex flex-col gap-x-0 mt-5 divide-y divide-dashed divide-gray-200 md:flex-row md:items-center md:justify-end md:gap-x-7 md:mt-0 md:pl-7 md:divide-y-0 md:divide-solid dark:divide-gray-700">
+              <div className="flex flex-col gap-x-0 mt-5 divide-y divide-dashed divide-gray-200 md:flex-row md:items-center md:justify-end md:gap-x-7 md:mt-0 md:pl-7 md:divide-y-0 md:divide-solid ">
                 <NavLink to={"/"}>
                   <p
-                    className="font-medium text-blue-600 py-3 md:py-6 dark:text-blue-500"
+                    className="font-medium text-blue-600 py-3 md:py-6 "
                     aria-label="Brand"
                   >
-                    Brand
+                    Home
                   </p>
                 </NavLink>
 
-                <p className="font-medium text-gray-800 hover:text-gray-600 py-3 md:py-6 dark:text-gray-200 dark:hover:text-gray-500">
-                  Resources
-                </p>
-
-                <p className="font-medium text-gray-800 hover:text-gray-600 py-3 md:py-6 dark:text-gray-200 dark:hover:text-gray-500">
-                  Work
-                </p>
                 {user.info.email === "" ? (
                   <button
                     onClick={toLoginPage}
-                    className="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800"
+                    className="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white  focus:ring-4 focus:outline-none focus:ring-blue-300 "
                   >
-                    <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+                    <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white rounded-md group-hover:bg-opacity-0">
                       เข้าสู่ระบบ
                     </span>
                   </button>
@@ -144,9 +141,9 @@ const NavBarCom = (props: Props) => {
                 {user.info.role !== Role.none ? (
                   <button
                     onClick={onDashboard}
-                    className="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-500 to-pink-500 group-hover:from-purple-500 group-hover:to-pink-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800"
+                    className="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-500 to-pink-500 group-hover:from-purple-500 group-hover:to-pink-500 hover:text-white  focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800"
                   >
-                    <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+                    <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white  rounded-md group-hover:bg-opacity-0">
                       Dashboard
                     </span>
                   </button>
@@ -157,9 +154,9 @@ const NavBarCom = (props: Props) => {
                 {user.info.email !== "" ? (
                   <button
                     onClick={onSignOut}
-                    className="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-500 to-pink-500 group-hover:from-purple-500 group-hover:to-pink-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800"
+                    className="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-500 to-pink-500 group-hover:from-purple-500 group-hover:to-pink-500 hover:text-white  focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800"
                   >
-                    <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+                    <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white  rounded-md group-hover:bg-opacity-0">
                       ออกจากระบบ
                     </span>
                   </button>

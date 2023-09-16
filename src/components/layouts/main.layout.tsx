@@ -5,16 +5,17 @@ import TableHotelHome from "../tableHotelHome";
 import { useEffect, useState } from "react";
 import { getDocs } from "firebase/firestore";
 import { dbHotels } from "../../configs/firebase.config";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../stores/store";
 import { useNavigate } from "react-router";
+import { setDefaltUser } from "../../stores/users/userSlice";
 
 const MainLayout = () => {
   const [hotels, setHotels] = useState<any[]>([]);
 
-  const count = useSelector((state: RootState) => state.counter.value);
   const navigate = useNavigate();
-
+  const user = useSelector((state: RootState) => state.user);
+  const dispatch = useDispatch();
   const getHotels = async () => {
     const data = await getDocs(dbHotels);
     setHotels(
@@ -26,6 +27,8 @@ const MainLayout = () => {
   };
 
   useEffect(() => {
+    dispatch(setDefaltUser());
+    console.log(user);
     getHotels();
   }, []);
 
@@ -102,10 +105,10 @@ const ContentCardMini = (props: { hotels: any[] }) => {
       <h1 className="text-3xl">ใหม่</h1>
       <br />
       <div className="  bg-white rounded-md flex flex-col">
-        {props.hotels.slice(0, 5).map((e, i) => (
-          <CardMini key={i} hotel={e} />
+        {props.hotels.slice(0, 10).map((e, i) => (
+          <CardMini key={Math.random()} hotel={e} />
         ))}
-      </div>{" "}
+      </div>
     </div>
   );
 };
@@ -118,18 +121,16 @@ const Card = (props: { hotel: any }) => {
   return (
     <>
       <div className="max-w-6xl mx-auto">
-        <div className="grid border rounded-xl shadow-sm divide-y overflow-hidden sm:flex sm:divide-y-0 sm:divide-x dark:border-gray-700 dark:shadow-slate-700/[.7] dark:divide-gray-600">
-          <div className="flex flex-col flex-[1_0_0%] bg-white dark:bg-gray-800">
+        <div className="grid border rounded-xl shadow-sm divide-y overflow-hidden sm:flex sm:divide-y-0 sm:divide-x ">
+          <div className="flex flex-col flex-[1_0_0%] bg-white ">
             <img
               className="h-auto max-h-[6rem] min-w-[7rem] rounded-md ml-1 mt-1"
               src={e.imageUrls[0]}
               alt="image description"
             />
             <div className="p-4 flex-1 md:p-5">
-              <h3 className="text-lg font-bold text-gray-800 dark:text-white">
-                {e.name}
-              </h3>
-              <p className="mt-1 text-sm line-clamp-4 text-gray-800 dark:text-gray-400">
+              <h3 className="text-lg font-bold text-gray-800 ">{e.name}</h3>
+              <p className="mt-1 text-sm line-clamp-4 text-gray-800 ">
                 {e.address}
               </p>
 
@@ -148,8 +149,8 @@ const Card = (props: { hotel: any }) => {
               <p className="text-xs">เบอร์ : {e.phone}</p>
               <p className="text-xs">ไลน์ : {e.line}</p>
             </div>
-            <div className="p-4 border-t sm:px-5 dark:border-gray-700">
-              <p className="text-xs text-gray-500 dark:text-gray-500">
+            <div className="p-4 border-t sm:px-5 ">
+              <p className="text-xs text-gray-500 ">
                 อับเดตเมื่อ {date.toLocaleTimeString()}
               </p>
             </div>
@@ -167,7 +168,7 @@ const CardMini = (props: { hotel: any }) => {
   return (
     <>
       <a href={e.map_url} target="_blank">
-        <div className="bg-white mb-4 h-40 border rounded-xl shadow-sm sm:flex dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]">
+        <div className="bg-white mb-4 h-40 border rounded-xl shadow-sm sm:flex   ">
           <div>
             <figure className="max-h-[6rem]">
               <img
@@ -184,9 +185,7 @@ const CardMini = (props: { hotel: any }) => {
 
           <div className="p-2 flex flex-wrap text-sm min-w-[7rem]">
             <div className="p-1 flex flex-col h-full ">
-              <h3 className="text-lg font-bold text-gray-800 dark:text-white">
-                {e.name}
-              </h3>
+              <h3 className="text-lg font-bold text-gray-800 ">{e.name}</h3>
 
               <p className="text-xs">{e.type}</p>
               <p className="text-xs">
@@ -201,7 +200,7 @@ const CardMini = (props: { hotel: any }) => {
               </a>
 
               <div className="mt-5 sm:mt-auto">
-                <p className="text-xs text-gray-500 dark:text-gray-500">
+                <p className="text-xs text-gray-500 ">
                   อับเดตเมื่อ {date.toLocaleTimeString()}
                 </p>
               </div>

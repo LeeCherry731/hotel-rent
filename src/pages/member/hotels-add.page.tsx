@@ -4,14 +4,17 @@ import React, { useState } from "react";
 import { dbHotels, storage } from "../../configs/firebase.config";
 import { addDoc, serverTimestamp } from "firebase/firestore";
 import { IAddHotel } from "../../interfaces/add-user.interface";
+import { useSelector } from "react-redux";
+import { RootState } from "../../stores/store";
 type Props = {};
 
 const HotelsAddPage = (props: Props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [files, setFiles] = useState<File[]>([]);
-
+  const user = useSelector((state: RootState) => state.user.info);
   const initialValues: IAddHotel = {
     id: "",
+    userId: user.id,
     name: "",
     address: "",
     phone: "",
@@ -19,6 +22,7 @@ const HotelsAddPage = (props: Props) => {
     type: "",
     map_url: "",
 
+    price: 0,
     min_price: 0,
     max_price: 0,
     bail: 0,
@@ -86,6 +90,7 @@ const HotelsAddPage = (props: Props) => {
     console.log(urls);
     const hotel: IAddHotel = {
       id: Math.random().toString(),
+      userId: user.id,
       name: value.name,
       address: value.address,
       phone: value.phone,
@@ -95,6 +100,7 @@ const HotelsAddPage = (props: Props) => {
 
       promote: value.promote,
 
+      price: value.price,
       min_price: value.min_price,
       max_price: value.max_price,
       bail: value.bail,
@@ -141,7 +147,7 @@ const HotelsAddPage = (props: Props) => {
             <div>
               <label
                 htmlFor="first_name"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                className="block mb-2 text-sm font-medium text-gray-900 "
               >
                 Name
               </label>
@@ -149,7 +155,7 @@ const HotelsAddPage = (props: Props) => {
                 type="text"
                 id="first_name"
                 name="name"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                 placeholder="Name"
                 required
               />
@@ -158,7 +164,7 @@ const HotelsAddPage = (props: Props) => {
             <div>
               <label
                 htmlFor="last_name"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                className="block mb-2 text-sm font-medium text-gray-900 "
               >
                 Address
               </label>
@@ -166,44 +172,61 @@ const HotelsAddPage = (props: Props) => {
                 type="text"
                 name="address"
                 id="last_name"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                 placeholder="Address"
                 required
               />
               <ErrorMessage name="address" />
             </div>
             <div>
-              <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+              <label className="block mb-2 text-sm font-medium text-gray-900 ">
                 Phone
               </label>
               <Field
                 type="text"
                 name="phone"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                 placeholder="phone"
                 required
               />
               <ErrorMessage name="phone" />
             </div>
             <div>
-              <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+              <label className="block mb-2 text-sm font-medium text-gray-900 ">
                 Line
               </label>
               <Field
                 type="text"
                 name="line"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                 placeholder="line"
                 required
               />
               <ErrorMessage name="phone" />
             </div>
           </div>
+          <div className="mb-3">
+            <label
+              htmlFor="min_price"
+              className="block mb-2 text-sm font-medium text-gray-900 "
+            >
+              ราคาบาท/ต่อเดือน
+            </label>
+            <Field
+              type="number"
+              id="price"
+              name="price"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+              placeholder="1000"
+              required
+            />
+            <ErrorMessage name="min_price" />
+          </div>
           <div className="grid gap-6 mb-6 md:grid-cols-2">
             <div>
               <label
                 htmlFor="min_price"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                className="block mb-2 text-sm font-medium text-gray-900 "
               >
                 ราคาต่ำที่สุด
               </label>
@@ -211,7 +234,7 @@ const HotelsAddPage = (props: Props) => {
                 type="number"
                 id="min_price"
                 name="min_price"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                 placeholder="1000"
                 required
               />
@@ -220,7 +243,7 @@ const HotelsAddPage = (props: Props) => {
             <div>
               <label
                 htmlFor="first_name"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                className="block mb-2 text-sm font-medium text-gray-900 "
               >
                 ราคาสูงที่สุด
               </label>
@@ -228,7 +251,7 @@ const HotelsAddPage = (props: Props) => {
                 type="number"
                 id="max_price"
                 name="max_price"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                 placeholder="100000"
                 required
               />
@@ -237,26 +260,26 @@ const HotelsAddPage = (props: Props) => {
           </div>
           <div className="grid gap-6 mb-6 md:grid-cols-2">
             <div>
-              <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+              <label className="block mb-2 text-sm font-medium text-gray-900 ">
                 เงินประกัน
               </label>
               <Field
                 type="number"
                 name="bail"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                 placeholder="1000"
                 required
               />
               <ErrorMessage name="bail" />
             </div>
             <div>
-              <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+              <label className="block mb-2 text-sm font-medium text-gray-900 ">
                 จ่ายล่วงหน้า
               </label>
               <Field
                 type="number"
                 name="prepay"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                 placeholder="100000"
                 required
               />
@@ -265,26 +288,26 @@ const HotelsAddPage = (props: Props) => {
           </div>
           <div className="grid gap-6 mb-6 md:grid-cols-2">
             <div>
-              <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+              <label className="block mb-2 text-sm font-medium text-gray-900 ">
                 ค่าไฟ
               </label>
               <Field
                 type="number"
                 name="electricity_bill"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                 placeholder="1000"
                 required
               />
               <ErrorMessage name="electricity_bill" />
             </div>
             <div>
-              <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+              <label className="block mb-2 text-sm font-medium text-gray-900 ">
                 ค่าน้ำ
               </label>
               <Field
                 type="number"
                 name="water_bill"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                 placeholder="100000"
                 required
               />
@@ -294,14 +317,14 @@ const HotelsAddPage = (props: Props) => {
           <div>
             <label
               htmlFor="first_name"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              className="block mb-2 text-sm font-medium text-gray-900 "
             >
               แผนที่ (Map Url)
             </label>
             <Field
               type="url"
               name="map_url"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
               placeholder="www.google.com"
               required
             />
@@ -309,167 +332,167 @@ const HotelsAddPage = (props: Props) => {
           </div>
           {/* <MapAddHotel /> */}
           <br />
-          <div className="my-2 flex items-center pl-4 border border-gray-200 rounded dark:border-gray-700">
+          <div className="my-2 flex items-center pl-4 border border-gray-200 rounded ">
             <Field
               type="checkbox"
               name="car_park"
               className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
             />
-            <label className="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+            <label className="w-full py-4 ml-2 text-sm font-medium text-gray-900 ">
               ที่จอดรถยนต์
             </label>
           </div>
-          <div className="my-2 flex items-center pl-4 border border-gray-200 rounded dark:border-gray-700">
+          <div className="my-2 flex items-center pl-4 border border-gray-200 rounded ">
             <Field
               type="checkbox"
               name="motorcycle_park"
               className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
             />
-            <label className="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+            <label className="w-full py-4 ml-2 text-sm font-medium text-gray-900 ">
               ที่จอดมอเตอร์ไซต์
             </label>
           </div>
-          <div className="my-2 flex items-center pl-4 border border-gray-200 rounded dark:border-gray-700">
+          <div className="my-2 flex items-center pl-4 border border-gray-200 rounded ">
             <Field
               type="checkbox"
               name="cctv"
               className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
             />
-            <label className="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+            <label className="w-full py-4 ml-2 text-sm font-medium text-gray-900 ">
               กล้องวงจรปิด (CCTV)
             </label>
           </div>
-          <div className="my-2 flex items-center pl-4 border border-gray-200 rounded dark:border-gray-700">
+          <div className="my-2 flex items-center pl-4 border border-gray-200 rounded ">
             <Field
               type="checkbox"
               name="elevator"
               className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
             />
-            <label className="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+            <label className="w-full py-4 ml-2 text-sm font-medium text-gray-900 ">
               ลิฟต์
             </label>
           </div>
-          <div className="my-2 flex items-center pl-4 border border-gray-200 rounded dark:border-gray-700">
+          <div className="my-2 flex items-center pl-4 border border-gray-200 rounded ">
             <Field
               type="checkbox"
               name="laundry_service"
               className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
             />
-            <label className="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+            <label className="w-full py-4 ml-2 text-sm font-medium text-gray-900 ">
               ร้านซัก-รีด / มีบริการเครื่องซักผ้า
             </label>
           </div>
 
-          <div className="my-2 flex items-center pl-4 border border-gray-200 rounded dark:border-gray-700">
+          <div className="my-2 flex items-center pl-4 border border-gray-200 rounded ">
             <Field
               type="checkbox"
               name="wifi"
               className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
             />
-            <label className="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+            <label className="w-full py-4 ml-2 text-sm font-medium text-gray-900 ">
               อินเทอร์เน็ตไวไฟ
             </label>
           </div>
-          <div className="my-2 flex items-center pl-4 border border-gray-200 rounded dark:border-gray-700">
+          <div className="my-2 flex items-center pl-4 border border-gray-200 rounded ">
             <Field
               type="checkbox"
               name="furniture"
               className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
             />
-            <label className="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+            <label className="w-full py-4 ml-2 text-sm font-medium text-gray-900 ">
               เฟอร์นิเจอร์-ตู้, เตียง
             </label>
           </div>
-          <div className="my-2 flex items-center pl-4 border border-gray-200 rounded dark:border-gray-700">
+          <div className="my-2 flex items-center pl-4 border border-gray-200 rounded ">
             <Field
               type="checkbox"
               name="air"
               className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
             />
-            <label className="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+            <label className="w-full py-4 ml-2 text-sm font-medium text-gray-900 ">
               เครื่องปรับอากาศ
             </label>
           </div>
-          <div className="my-2 flex items-center pl-4 border border-gray-200 rounded dark:border-gray-700">
+          <div className="my-2 flex items-center pl-4 border border-gray-200 rounded ">
             <Field
               type="checkbox"
               name="fan"
               className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
             />
-            <label className="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+            <label className="w-full py-4 ml-2 text-sm font-medium text-gray-900 ">
               พัดลม
             </label>
           </div>
-          <div className="my-2 flex items-center pl-4 border border-gray-200 rounded dark:border-gray-700">
+          <div className="my-2 flex items-center pl-4 border border-gray-200 rounded ">
             <Field
               type="checkbox"
               name="tv"
               className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
             />
-            <label className="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+            <label className="w-full py-4 ml-2 text-sm font-medium text-gray-900 ">
               ทีวี
             </label>
           </div>
-          <div className="my-2 flex items-center pl-4 border border-gray-200 rounded dark:border-gray-700">
+          <div className="my-2 flex items-center pl-4 border border-gray-200 rounded ">
             <Field
               type="checkbox"
               name="fridge"
               className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
             />
-            <label className="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+            <label className="w-full py-4 ml-2 text-sm font-medium text-gray-900 ">
               ตู้เย็น
             </label>
           </div>
 
-          <div className="my-2 flex items-center pl-4 border border-gray-200 rounded dark:border-gray-700">
+          <div className="my-2 flex items-center pl-4 border border-gray-200 rounded ">
             <Field
               type="checkbox"
               name="water_heater"
               className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
             />
-            <label className="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+            <label className="w-full py-4 ml-2 text-sm font-medium text-gray-900 ">
               เครื่องทำน้ำอุ่น
             </label>
           </div>
-          <div className="my-2 flex items-center pl-4 border border-gray-200 rounded dark:border-gray-700">
+          <div className="my-2 flex items-center pl-4 border border-gray-200 rounded ">
             <Field
               type="checkbox"
               name="pet"
               className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
             />
-            <label className="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+            <label className="w-full py-4 ml-2 text-sm font-medium text-gray-900 ">
               อนุญาตให้เลี้ยงสัตว์
             </label>
           </div>
-          <div className="my-2 flex items-center pl-4 border border-gray-200 rounded dark:border-gray-700">
+          <div className="my-2 flex items-center pl-4 border border-gray-200 rounded ">
             <Field
               type="checkbox"
               name="cigarette"
               className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
             />
-            <label className="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+            <label className="w-full py-4 ml-2 text-sm font-medium text-gray-900 ">
               อนุญาตให้สูบบุหรี่
             </label>
           </div>
-          <div className="my-2 flex items-center pl-4 border border-gray-200 rounded dark:border-gray-700">
+          <div className="my-2 flex items-center pl-4 border border-gray-200 rounded ">
             <Field
               type="checkbox"
               name="security"
               className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
             />
-            <label className="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+            <label className="w-full py-4 ml-2 text-sm font-medium text-gray-900 ">
               ระบบรักษาความปลอดภัยคีร์การ์ด/สแกนลายนิ้วมือ
             </label>
           </div>
 
           <div className="mt-5">
-            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+            <label className="block mb-2 text-sm font-medium text-gray-900 ">
               ประเภทหอพัง
             </label>
             <Field
               as="select"
               name="type"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
             >
               <option value="หอพักรวมชายหญิง">หอพักรวมชายหญิง</option>
               <option value="หอพักชายล้วน">หอพักชายล้วน</option>
@@ -481,7 +504,7 @@ const HotelsAddPage = (props: Props) => {
             <label className="relative inline-flex items-center mr-5 cursor-pointer">
               <Field type="checkbox" name="promote" className="sr-only peer" />
               <div className="w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700 peer-focus:ring-4 peer-focus:ring-green-300 dark:peer-focus:ring-green-800 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-green-600"></div>
-              <span className="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">
+              <span className="ml-3 text-sm font-medium text-gray-900 ">
                 แนะนำ
               </span>
             </label>
