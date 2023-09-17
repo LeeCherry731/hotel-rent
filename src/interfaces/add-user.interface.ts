@@ -6,8 +6,6 @@ export interface IAddUser {
     name: string;
     email: string;
     role: Role;
-    phone: string;
-    line: string;
     created_at: Date;
     updated_at: Date;
 }

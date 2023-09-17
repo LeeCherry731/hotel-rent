@@ -27,8 +27,6 @@ const RegisterPage = (props: Props) => {
   const initialValues = {
     email: "",
     name: "",
-    phone: "",
-    line: "",
     password: "",
     confirmPassword: "",
   };
@@ -42,8 +40,6 @@ const RegisterPage = (props: Props) => {
         const user: IAddUser = {
           email: val.email,
           name: val.name,
-          phone: val.phone,
-          line: val.line,
           role: Role.member,
           created_at: new Date(),
           updated_at: new Date(),
@@ -111,8 +107,6 @@ const RegisterPage = (props: Props) => {
       .email("กรุณากรอกอีเมลให้ถูกต้อง")
       .required("กรุณากรอกอีเมล"),
     name: Yup.string().required("กรุณากรอกซื่อ"),
-    phone: Yup.string().required("กรุณากรอกเบอร์"),
-    line: Yup.string().required("กรุณากรอกไลน์ไอดี"),
     password: Yup.string()
       .matches(/[a-zA-Z]/, "Password can only contain Latin letters.")
       .required("กรุณากรอกรหัสผ่าน"),
@@ -164,39 +158,6 @@ const RegisterPage = (props: Props) => {
 
               <span className="text-red-600">
                 <ErrorMessage className="text-red-600" name="name" />
-              </span>
-            </div>
-            <div className="mt-2">
-              <label className="block text-sm font-medium mb-2 text-slate-700">
-                เบอร์
-              </label>
-              <Field
-                type="text"
-                name="phone"
-                className="relative border-2 py-3 px-4 block w-full  rounded-md text-sm focus:border-green-500 focus:ring-green-500 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400"
-                required
-                aria-describedby="hs-validation-name-success-helper"
-              />
-
-              <span className="text-red-600">
-                <ErrorMessage className="text-red-600" name="phone" />
-              </span>
-            </div>
-
-            <div className="mt-2">
-              <label className="block text-sm font-medium mb-2 text-slate-700">
-                ไลน์ไอดี
-              </label>
-              <Field
-                type="text"
-                name="line"
-                className="relative border-2 py-3 px-4 block w-full  rounded-md text-sm focus:border-green-500 focus:ring-green-500 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400"
-                required
-                aria-describedby="hs-validation-name-success-helper"
-              />
-
-              <span className="text-red-600">
-                <ErrorMessage className="text-red-600" name="line" />
               </span>
             </div>
 
