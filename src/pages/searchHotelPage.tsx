@@ -427,301 +427,307 @@ const SearchHotelPage = (props: Props) => {
                 </div>
               ))}
             </div>
-            {!open ? (
-              <>
-                <button
-                  className="absolute top-0 right-0 md:hidden hover:bg-blue-600 bg-blue-400 rounded-lg p-1 text-white"
-                  type="button"
-                  onClick={() => {
-                    setOpen((e) => !e);
-                  }}
-                >
-                  เปิดการค้นหา
-                </button>
-              </>
-            ) : (
-              <div className="absolute rounded-lg p-5 bg-gray-50 top-0 right-0 md:block md:bg-transparent md:relative">
-                <div className="flex justify-between py-2">
-                  <p>ค้นหา</p>
-                  <button
-                    className="flex justify-end align-middle bg-slate-200 px-2 pb-2 pt-1 rounded-lg text-center hover:bg-slate-500 md:hidden"
-                    onClick={() => {
-                      setOpen((e) => !e);
-                    }}
-                  >
-                    x
-                  </button>
-                </div>
+            <button
+              onClick={() => {
+                setOpen((v) => !v);
+              }}
+              className="md:hidden z-10 absolute top-1 right-1 inline-flex items-center justify-center p-2 w-10 h-10 text-sm bg-slate-200 text-gray-500 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200  "
+            >
+              <span className="sr-only">Open main menu</span>
+              <svg
+                className="w-5 h-5"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 17 14"
+              >
+                <path
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M1 1h15M1 7h15M1 13h15"
+                />
+              </svg>
+            </button>
+            <div
+              className={`${
+                open ? "hidden" : ""
+              } md:block bg-gray-100 md:bg-transparent absolute rounded-lg p-5  top-0 right-0 `}
+            >
+              <div className="flex justify-between py-2">
+                <p>ค้นหา</p>
+              </div>
 
+              <div>
+                <label className="block mb-2 text-sm font-medium text-gray-900 ">
+                  ประเภทหอพัก
+                </label>
+                <select
+                  id="countries"
+                  name="type"
+                  onChange={(e) => {
+                    formik.handleChange(e);
+                    onChangeFilter();
+                  }}
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+                >
+                  <option value="all">ทั้งหมด</option>
+                  <option value="หอพักรวมชายหญิง">หอพักรวมชายหญิง</option>
+                  <option value="หอพักชายล้วน">หอพักชายล้วน</option>
+                  <option value="หอพักหญิงล้วน">หอพักหญิงล้วน</option>
+                </select>
+              </div>
+              <div className="my-3">
+                <label className="block mb-2 text-sm font-medium text-gray-900 ">
+                  ที่อยู่
+                </label>
+                <input
+                  onChange={(e) => {
+                    formik.handleChange(e);
+                    onChangeFilter();
+                  }}
+                  type="text"
+                  name="address"
+                  id="small-input"
+                  placeholder="ที่อยู่"
+                  className="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500"
+                />
+              </div>
+              <div className="mb-6 mt-3 flex gap-2">
                 <div>
                   <label className="block mb-2 text-sm font-medium text-gray-900 ">
-                    ประเภทหอพัก
-                  </label>
-                  <select
-                    id="countries"
-                    name="type"
-                    onChange={(e) => {
-                      formik.handleChange(e);
-                      onChangeFilter();
-                    }}
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-                  >
-                    <option value="all">ทั้งหมด</option>
-                    <option value="หอพักรวมชายหญิง">หอพักรวมชายหญิง</option>
-                    <option value="หอพักชายล้วน">หอพักชายล้วน</option>
-                    <option value="หอพักหญิงล้วน">หอพักหญิงล้วน</option>
-                  </select>
-                </div>
-                <div className="my-3">
-                  <label className="block mb-2 text-sm font-medium text-gray-900 ">
-                    ที่อยู่
+                    ราคาเริ่มต้น
                   </label>
                   <input
                     onChange={(e) => {
                       formik.handleChange(e);
                       onChangeFilter();
                     }}
-                    type="text"
-                    name="address"
+                    type="number"
+                    name="range_min"
                     id="small-input"
-                    placeholder="ที่อยู่"
+                    placeholder="1,000"
                     className="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500"
                   />
                 </div>
-                <div className="mb-6 mt-3 flex gap-2">
-                  <div>
-                    <label className="block mb-2 text-sm font-medium text-gray-900 ">
-                      ราคาเริ่มต้น
-                    </label>
-                    <input
-                      onChange={(e) => {
-                        formik.handleChange(e);
-                        onChangeFilter();
-                      }}
-                      type="number"
-                      name="range_min"
-                      id="small-input"
-                      placeholder="1,000"
-                      className="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500"
-                    />
-                  </div>
-                  <div>
-                    <label className="block mb-2 text-sm font-medium text-gray-900 ">
-                      ราคาสูงสุด
-                    </label>
-                    <input
-                      onChange={(e) => {
-                        formik.handleChange(e);
-                        onChangeFilter();
-                      }}
-                      type="number"
-                      name="range_max"
-                      id="small-input"
-                      placeholder="10,000"
-                      className="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500"
-                    />
-                  </div>
-                </div>
-
-                <div className="my-2 flex items-center pl-4 border border-gray-200 rounded ">
+                <div>
+                  <label className="block mb-2 text-sm font-medium text-gray-900 ">
+                    ราคาสูงสุด
+                  </label>
                   <input
                     onChange={(e) => {
                       formik.handleChange(e);
                       onChangeFilter();
                     }}
-                    type="checkbox"
-                    name="car_park"
-                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 "
+                    type="number"
+                    name="range_max"
+                    id="small-input"
+                    placeholder="10,000"
+                    className="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500"
                   />
-                  <label className="w-full py-4 ml-2 text-sm font-medium text-gray-900 ">
-                    ที่จอดรถยนต์
-                  </label>
-                </div>
-                <div className="my-2 flex items-center pl-4 border border-gray-200 rounded ">
-                  <input
-                    onChange={(e) => {
-                      formik.handleChange(e);
-                      onChangeFilter();
-                    }}
-                    type="checkbox"
-                    name="cctv"
-                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500  focus:ring-2"
-                  />
-                  <label className="w-full py-4 ml-2 text-sm font-medium text-gray-900 ">
-                    กล้องวงจรปิด (CCTV)
-                  </label>
-                </div>
-                <div className="my-2 flex items-center pl-4 border border-gray-200 rounded ">
-                  <input
-                    onChange={(e) => {
-                      formik.handleChange(e);
-                      onChangeFilter();
-                    }}
-                    type="checkbox"
-                    name="elevator"
-                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500  focus:ring-2"
-                  />
-                  <label className="w-full py-4 ml-2 text-sm font-medium text-gray-900 ">
-                    ลิฟต์
-                  </label>
-                </div>
-                <div className="my-2 flex items-center pl-4 border border-gray-200 rounded ">
-                  <input
-                    onChange={(e) => {
-                      formik.handleChange(e);
-                      onChangeFilter();
-                    }}
-                    type="checkbox"
-                    name="laundry_service"
-                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500  focus:ring-2"
-                  />
-                  <label className="w-full py-4 ml-2 text-sm font-medium text-gray-900 ">
-                    ร้านซัก-รีด / มีบริการเครื่องซักผ้า
-                  </label>
-                </div>
-                <div className="my-2 flex items-center pl-4 border border-gray-200 rounded ">
-                  <input
-                    onChange={(e) => {
-                      formik.handleChange(e);
-                      onChangeFilter();
-                    }}
-                    type="checkbox"
-                    name="motorcycle_park"
-                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500  focus:ring-2"
-                  />
-                  <label className="w-full py-4 ml-2 text-sm font-medium text-gray-900 ">
-                    ที่จอดมอเตอร์ไซต์
-                  </label>
-                </div>
-                <div className="my-2 flex items-center pl-4 border border-gray-200 rounded ">
-                  <input
-                    onChange={(e) => {
-                      formik.handleChange(e);
-                      onChangeFilter();
-                    }}
-                    type="checkbox"
-                    name="wifi"
-                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500  focus:ring-2"
-                  />
-                  <label className="w-full py-4 ml-2 text-sm font-medium text-gray-900 ">
-                    อินเทอร์เน็ตไร้สาย (WIFI) ในห้อง
-                  </label>
-                </div>
-                <div className="my-2 flex items-center pl-4 border border-gray-200 rounded ">
-                  <input
-                    onChange={(e) => {
-                      formik.handleChange(e);
-                      onChangeFilter();
-                    }}
-                    type="checkbox"
-                    name="furniture"
-                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500  focus:ring-2"
-                  />
-                  <label className="w-full py-4 ml-2 text-sm font-medium text-gray-900 ">
-                    เฟอร์นิเจอร์-ตู้, เตียง
-                  </label>
-                </div>
-                <div className="my-2 flex items-center pl-4 border border-gray-200 rounded ">
-                  <input
-                    onChange={(e) => {
-                      formik.handleChange(e);
-                      onChangeFilter();
-                    }}
-                    type="checkbox"
-                    name="air"
-                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500  focus:ring-2"
-                  />
-                  <label className="w-full py-4 ml-2 text-sm font-medium text-gray-900 ">
-                    เครื่องปรับอากาศ
-                  </label>
-                </div>
-                <div className="my-2 flex items-center pl-4 border border-gray-200 rounded ">
-                  <input
-                    onChange={(e) => {
-                      formik.handleChange(e);
-                      onChangeFilter();
-                    }}
-                    type="checkbox"
-                    name="water_heater"
-                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500  focus:ring-2"
-                  />
-                  <label className="w-full py-4 ml-2 text-sm font-medium text-gray-900 ">
-                    เครื่องทำน้ำอุ่น
-                  </label>
-                </div>
-                <div className="my-2 flex items-center pl-4 border border-gray-200 rounded ">
-                  <input
-                    onChange={(e) => {
-                      formik.handleChange(e);
-                      onChangeFilter();
-                    }}
-                    type="checkbox"
-                    name="fan"
-                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500  focus:ring-2"
-                  />
-                  <label className="w-full py-4 ml-2 text-sm font-medium text-gray-900 ">
-                    พัดลม
-                  </label>
-                </div>
-                <div className="my-2 flex items-center pl-4 border border-gray-200 rounded ">
-                  <input
-                    onChange={(e) => {
-                      formik.handleChange(e);
-                      onChangeFilter();
-                    }}
-                    type="checkbox"
-                    name="tv"
-                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500  focus:ring-2"
-                  />
-                  <label className="w-full py-4 ml-2 text-sm font-medium text-gray-900 ">
-                    มี TV
-                  </label>
-                </div>
-                <div className="my-2 flex items-center pl-4 border border-gray-200 rounded ">
-                  <input
-                    onChange={(e) => {
-                      formik.handleChange(e);
-                      onChangeFilter();
-                    }}
-                    type="checkbox"
-                    name="fridge"
-                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500  focus:ring-2"
-                  />
-                  <label className="w-full py-4 ml-2 text-sm font-medium text-gray-900 ">
-                    ตู้เย็น
-                  </label>
-                </div>
-                <div className="my-2 flex items-center pl-4 border border-gray-200 rounded ">
-                  <input
-                    onChange={(e) => {
-                      formik.handleChange(e);
-                      onChangeFilter();
-                    }}
-                    type="checkbox"
-                    name="pet"
-                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500  focus:ring-2"
-                  />
-                  <label className="w-full py-4 ml-2 text-sm font-medium text-gray-900 ">
-                    อนุญาตให้เลี้ยงสัตว์
-                  </label>
-                </div>
-                <div className="my-2 flex items-center pl-4 border border-gray-200 rounded ">
-                  <input
-                    onChange={(e) => {
-                      formik.handleChange(e);
-                      onChangeFilter();
-                    }}
-                    type="checkbox"
-                    name="cigarette"
-                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500  focus:ring-2"
-                  />
-                  <label className="w-full py-4 ml-2 text-sm font-medium text-gray-900 ">
-                    อนุญาตให้สูบบุหรี่
-                  </label>
                 </div>
               </div>
-            )}
+
+              <div className="my-2 flex items-center pl-4 border border-gray-200 rounded ">
+                <input
+                  onChange={(e) => {
+                    formik.handleChange(e);
+                    onChangeFilter();
+                  }}
+                  type="checkbox"
+                  name="car_park"
+                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 "
+                />
+                <label className="w-full py-4 ml-2 text-sm font-medium text-gray-900 ">
+                  ที่จอดรถยนต์
+                </label>
+              </div>
+              <div className="my-2 flex items-center pl-4 border border-gray-200 rounded ">
+                <input
+                  onChange={(e) => {
+                    formik.handleChange(e);
+                    onChangeFilter();
+                  }}
+                  type="checkbox"
+                  name="cctv"
+                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500  focus:ring-2"
+                />
+                <label className="w-full py-4 ml-2 text-sm font-medium text-gray-900 ">
+                  กล้องวงจรปิด (CCTV)
+                </label>
+              </div>
+              <div className="my-2 flex items-center pl-4 border border-gray-200 rounded ">
+                <input
+                  onChange={(e) => {
+                    formik.handleChange(e);
+                    onChangeFilter();
+                  }}
+                  type="checkbox"
+                  name="elevator"
+                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500  focus:ring-2"
+                />
+                <label className="w-full py-4 ml-2 text-sm font-medium text-gray-900 ">
+                  ลิฟต์
+                </label>
+              </div>
+              <div className="my-2 flex items-center pl-4 border border-gray-200 rounded ">
+                <input
+                  onChange={(e) => {
+                    formik.handleChange(e);
+                    onChangeFilter();
+                  }}
+                  type="checkbox"
+                  name="laundry_service"
+                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500  focus:ring-2"
+                />
+                <label className="w-full py-4 ml-2 text-sm font-medium text-gray-900 ">
+                  ร้านซัก-รีด / มีบริการเครื่องซักผ้า
+                </label>
+              </div>
+              <div className="my-2 flex items-center pl-4 border border-gray-200 rounded ">
+                <input
+                  onChange={(e) => {
+                    formik.handleChange(e);
+                    onChangeFilter();
+                  }}
+                  type="checkbox"
+                  name="motorcycle_park"
+                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500  focus:ring-2"
+                />
+                <label className="w-full py-4 ml-2 text-sm font-medium text-gray-900 ">
+                  ที่จอดมอเตอร์ไซต์
+                </label>
+              </div>
+              <div className="my-2 flex items-center pl-4 border border-gray-200 rounded ">
+                <input
+                  onChange={(e) => {
+                    formik.handleChange(e);
+                    onChangeFilter();
+                  }}
+                  type="checkbox"
+                  name="wifi"
+                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500  focus:ring-2"
+                />
+                <label className="w-full py-4 ml-2 text-sm font-medium text-gray-900 ">
+                  อินเทอร์เน็ตไร้สาย (WIFI) ในห้อง
+                </label>
+              </div>
+              <div className="my-2 flex items-center pl-4 border border-gray-200 rounded ">
+                <input
+                  onChange={(e) => {
+                    formik.handleChange(e);
+                    onChangeFilter();
+                  }}
+                  type="checkbox"
+                  name="furniture"
+                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500  focus:ring-2"
+                />
+                <label className="w-full py-4 ml-2 text-sm font-medium text-gray-900 ">
+                  เฟอร์นิเจอร์-ตู้, เตียง
+                </label>
+              </div>
+              <div className="my-2 flex items-center pl-4 border border-gray-200 rounded ">
+                <input
+                  onChange={(e) => {
+                    formik.handleChange(e);
+                    onChangeFilter();
+                  }}
+                  type="checkbox"
+                  name="air"
+                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500  focus:ring-2"
+                />
+                <label className="w-full py-4 ml-2 text-sm font-medium text-gray-900 ">
+                  เครื่องปรับอากาศ
+                </label>
+              </div>
+              <div className="my-2 flex items-center pl-4 border border-gray-200 rounded ">
+                <input
+                  onChange={(e) => {
+                    formik.handleChange(e);
+                    onChangeFilter();
+                  }}
+                  type="checkbox"
+                  name="water_heater"
+                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500  focus:ring-2"
+                />
+                <label className="w-full py-4 ml-2 text-sm font-medium text-gray-900 ">
+                  เครื่องทำน้ำอุ่น
+                </label>
+              </div>
+              <div className="my-2 flex items-center pl-4 border border-gray-200 rounded ">
+                <input
+                  onChange={(e) => {
+                    formik.handleChange(e);
+                    onChangeFilter();
+                  }}
+                  type="checkbox"
+                  name="fan"
+                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500  focus:ring-2"
+                />
+                <label className="w-full py-4 ml-2 text-sm font-medium text-gray-900 ">
+                  พัดลม
+                </label>
+              </div>
+              <div className="my-2 flex items-center pl-4 border border-gray-200 rounded ">
+                <input
+                  onChange={(e) => {
+                    formik.handleChange(e);
+                    onChangeFilter();
+                  }}
+                  type="checkbox"
+                  name="tv"
+                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500  focus:ring-2"
+                />
+                <label className="w-full py-4 ml-2 text-sm font-medium text-gray-900 ">
+                  มี TV
+                </label>
+              </div>
+              <div className="my-2 flex items-center pl-4 border border-gray-200 rounded ">
+                <input
+                  onChange={(e) => {
+                    formik.handleChange(e);
+                    onChangeFilter();
+                  }}
+                  type="checkbox"
+                  name="fridge"
+                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500  focus:ring-2"
+                />
+                <label className="w-full py-4 ml-2 text-sm font-medium text-gray-900 ">
+                  ตู้เย็น
+                </label>
+              </div>
+              <div className="my-2 flex items-center pl-4 border border-gray-200 rounded ">
+                <input
+                  onChange={(e) => {
+                    formik.handleChange(e);
+                    onChangeFilter();
+                  }}
+                  type="checkbox"
+                  name="pet"
+                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500  focus:ring-2"
+                />
+                <label className="w-full py-4 ml-2 text-sm font-medium text-gray-900 ">
+                  อนุญาตให้เลี้ยงสัตว์
+                </label>
+              </div>
+              <div className="my-2 flex items-center pl-4 border border-gray-200 rounded ">
+                <input
+                  onChange={(e) => {
+                    formik.handleChange(e);
+                    onChangeFilter();
+                  }}
+                  type="checkbox"
+                  name="cigarette"
+                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500  focus:ring-2"
+                />
+                <label className="w-full py-4 ml-2 text-sm font-medium text-gray-900 ">
+                  อนุญาตให้สูบบุหรี่
+                </label>
+              </div>
+            </div>
           </div>
+          <div className="h-screen"></div>
         </div>
       </div>
     </>

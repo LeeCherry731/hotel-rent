@@ -135,7 +135,7 @@ const RegisterPage = (props: Props) => {
               <Field
                 type="text"
                 name="email"
-                className="border-2 py-3 px-4 block w-full  rounded-md text-sm focus:border-red-500 focus:ring-red-500 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400"
+                className="bg-gray-100  border-2 py-3 px-4 block w-full  rounded-md text-sm focus:border-red-500 focus:ring-red-500 "
                 required
                 aria-describedby="hs-validation-name-error-helper"
               />
@@ -151,7 +151,7 @@ const RegisterPage = (props: Props) => {
               <Field
                 type="text"
                 name="name"
-                className="relative border-2 py-3 px-4 block w-full  rounded-md text-sm focus:border-green-500 focus:ring-green-500 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400"
+                className="bg-gray-100  relative border-2 py-3 px-4 block w-full  rounded-md text-sm focus:border-green-500 focus:ring-green-500 "
                 required
                 aria-describedby="hs-validation-name-success-helper"
               />
@@ -168,7 +168,7 @@ const RegisterPage = (props: Props) => {
               <Field
                 type="password"
                 name="password"
-                className="relative border-2 py-3 px-4 block w-full  rounded-md text-sm focus:border-green-500 focus:ring-green-500 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400"
+                className="bg-gray-100 relative border-2 py-3 px-4 block w-full  rounded-md text-sm focus:border-green-500 focus:ring-green-500 "
                 required
                 aria-describedby="hs-validation-name-success-helper"
               />
@@ -185,7 +185,7 @@ const RegisterPage = (props: Props) => {
               <Field
                 type="password"
                 name="confirmPassword"
-                className="relative border-2 py-3 px-4 block w-full rounded-md text-sm focus:border-green-500 focus:ring-green-500 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400"
+                className="bg-gray-100  relative border-2 py-3 px-4 block w-full rounded-md text-sm focus:border-green-500 focus:ring-green-500 "
                 required
                 aria-describedby="hs-validation-name-success-helper"
               />

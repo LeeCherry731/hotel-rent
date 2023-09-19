@@ -1,44 +1,20 @@
-import { Formik, Form, Field } from "formik";
-import * as Yup from "yup";
-import React from "react";
-import TableCom from "../table.com";
-import TableTwoCom from "../tableHotel";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { signOut } from "firebase/auth";
 import { useDispatch } from "react-redux";
 import { logout } from "../../stores/users/userSlice";
 import { auth } from "../../configs/firebase.config";
+import { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 type Props = {};
 
-const addHotalSchema = Yup.object({
-  name: Yup.string().required("Name Required."),
-  type: Yup.string().required("type Required."),
-  price: Yup.number().required("type Required."),
-  phone: Yup.string().required("type Required."),
-  options: Yup.array().optional(),
-});
-
 const MemberLayout = (props: Props) => {
-  const checkboxOptions = [
-    { key: "Option1", value: "Option 1" },
-    { key: "Option2", value: "Option 2" },
-    { key: "Option3", value: "Option 3" },
-  ];
+  const [hidden, sethidden] = useState(true);
   const navigation = useNavigate();
   const dispatch = useDispatch();
-  const initialValues = {
-    name: "",
-    type: "",
-    options: [],
-    price: 0,
-    phone: "",
-  };
+
   const toHomePage = () => {
     navigation("/");
-  };
-  const onSubmit = (values: typeof initialValues) => {
-    console.log(values);
   };
 
   const onSignOut = () => {
@@ -46,14 +22,6 @@ const MemberLayout = (props: Props) => {
       .then((res) => {
         console.log(res);
         alert(`ออกจากระบบ สำเร็จ`);
-        // localStorage.setItem("accessToken", res.)
-        // const userInfo = {
-        //   name: "",
-        //   email: "",
-        //   role: Role.none,
-        //   phone: "",
-        //   line: "",
-        // };
         dispatch(logout());
         navigation("/");
       })
@@ -64,42 +32,43 @@ const MemberLayout = (props: Props) => {
 
   return (
     <>
-      <div className="w-full flex gap-5 min-h-screen">
-        <div className="w-64 min-h-full h-auto  p-4 overflow-y-auto bg-white dark:bg-gray-800">
-          <h5 className="text-base font-semibold text-gray-500 uppercase dark:text-gray-400">
+      <div className=" flex gap-5 min-h-screen relative">
+        <button
+          onClick={() => {
+            sethidden((v) => !v);
+          }}
+          className="md:hidden z-10 absolute  top-1 left-1 inline-flex items-center justify-center p-2 w-10 h-10 text-sm bg-slate-50 text-gray-500 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200  "
+        >
+          <span className="sr-only">Open main menu</span>
+          <svg
+            className="w-5 h-5"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 17 14"
+          >
+            <path
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M1 1h15M1 7h15M1 13h15"
+            />
+          </svg>
+        </button>
+        <div className={`bg-white px-2 ${hidden ? "hidden" : ""} md:block`}>
+          <h5 className="text-base font-semibold text-gray-500 uppercase ">
             Menu
           </h5>
-          <button
-            onClick={toHomePage}
-            type="button"
-            data-drawer-hide="drawer-navigation"
-            aria-controls="drawer-navigation"
-            className="text-gray-400  border-slate-300 border-2 bg-gray-200 hover:bg-gray-400 hover:text-gray-900 rounded-lg text-sm p-1.5 absolute top-2.5 right-2.5 inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
-          >
-            <svg
-              aria-hidden="true"
-              className="w-5 h-5"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                fillRule="evenodd"
-                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                clipRule="evenodd"
-              ></path>
-            </svg>
-            <span className="sr-only">Close menu</span>
-          </button>
           <div className="py-4 overflow-y-auto">
             <ul className="space-y-2 font-medium">
               <li>
                 <Link
                   to={"/member"}
-                  className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                  className="flex items-center p-2 text-gray-900 rounded-lg  hover:bg-gray-100  group"
                 >
                   <svg
-                    className="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                    className="w-5 h-5 text-gray-500 transition duration-75  group-hover:text-gray-900 dark:group-hover:text-white"
                     aria-hidden="true"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="currentColor"
@@ -114,10 +83,10 @@ const MemberLayout = (props: Props) => {
               <li>
                 <Link
                   to={"/member/hotels"}
-                  className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                  className="flex items-center p-2 text-gray-900 rounded-lg  hover:bg-gray-100  group"
                 >
                   <svg
-                    className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                    className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75  group-hover:text-gray-900 dark:group-hover:text-white"
                     aria-hidden="true"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="currentColor"
@@ -132,10 +101,10 @@ const MemberLayout = (props: Props) => {
               <li>
                 <Link
                   to={"/"}
-                  className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                  className="flex items-center p-2 text-gray-900 rounded-lg  hover:bg-gray-100  group"
                 >
                   <svg
-                    className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                    className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75  group-hover:text-gray-900 dark:group-hover:text-white"
                     aria-hidden="true"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -155,18 +124,7 @@ const MemberLayout = (props: Props) => {
             </ul>
           </div>
         </div>
-        <div className="w-full mr-5">
-          <div className="w-full grid grid-cols-3 gap-5 my-5">
-            <div className="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-              <h1>120</h1>
-            </div>
-            <div className="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-              <h1>120</h1>
-            </div>
-            <div className="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-              <h1>120</h1>
-            </div>
-          </div>
+        <div className="py-5">
           <Outlet />
         </div>
       </div>

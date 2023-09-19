@@ -9,11 +9,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../stores/store";
 import { useNavigate } from "react-router";
 import { setDefaltUser } from "../../stores/users/userSlice";
+import { Link } from "react-router-dom";
+import Utils from "../../utils/utils";
 
 const MainLayout = () => {
   const [hotels, setHotels] = useState<any[]>([]);
 
-  const navigate = useNavigate();
   const user = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch();
   const getHotels = async () => {
@@ -44,23 +45,18 @@ const MainLayout = () => {
       <div className="w-full bg-gray-500">
         <Carousel />
       </div>
-
-      <div className="flex flex-row mt-5 max-w-[85rem] w-full mx-auto">
-        <div className="basis-3/4">
-          <div
-            onClick={() => {
-              navigate("/hotels/search");
-            }}
-          >
-            <TableHotelHome hotels={hotels} />
-          </div>
-          <br />
+      <div className="w-full  mt-5 flex flex-col lg:flex-row gap-4 lg:gap-0 justify-center">
+        <div className=" flex flex-col gap-4">
+          <TableHotelHome hotels={hotels} />
           <Content hotels={hotels} />
         </div>
-        <div className="basis-1/4">
-          <ContentCardMini hotels={hotels} />
-        </div>
+        <ContentCardMini hotels={hotels} />
       </div>
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
     </div>
   );
 };
@@ -80,7 +76,7 @@ const Content = (props: { hotels: any[] }) => {
     <div className="mx-5 bg-white p-5 rounded-md">
       <h1 className="text-3xl">แนะนำ</h1>
       <br />
-      <div className="grid  grid-cols-3 gap-4">
+      <div className="">
         {props.hotels
           .filter((f) => f.promote === true)
           .map((e, i) => (
@@ -104,7 +100,7 @@ const ContentCardMini = (props: { hotels: any[] }) => {
     <div className="mx-5 bg-white p-5 rounded-md">
       <h1 className="text-3xl">ใหม่</h1>
       <br />
-      <div className="  bg-white rounded-md flex flex-col">
+      <div className="bg-white rounded-md ">
         {props.hotels.slice(0, 10).map((e, i) => (
           <CardMini key={Math.random()} hotel={e} />
         ))}
@@ -119,45 +115,35 @@ const Card = (props: { hotel: any }) => {
   const date = new Date(timeStamp.seconds);
 
   return (
-    <>
-      <div className="max-w-6xl mx-auto">
-        <div className="grid border rounded-xl shadow-sm divide-y overflow-hidden sm:flex sm:divide-y-0 sm:divide-x ">
-          <div className="flex flex-col flex-[1_0_0%] bg-white ">
-            <img
-              className="h-auto max-h-[6rem] min-w-[7rem] rounded-md ml-1 mt-1"
-              src={e.imageUrls[0]}
-              alt="image description"
-            />
-            <div className="p-4 flex-1 md:p-5">
-              <h3 className="text-lg font-bold text-gray-800 ">{e.name}</h3>
-              <p className="mt-1 text-sm line-clamp-4 text-gray-800 ">
-                {e.address}
-              </p>
-
-              <p className="text-xs">{e.type}</p>
-              <p className="text-xs">
-                ราคา {e.min_price} - {e.max_price}
-              </p>
-
-              <a
-                className="text-xs text-blue-600 underline"
-                href={e.map_url}
-                target="_blank"
-              >
-                ดูแผนที่
-              </a>
-              <p className="text-xs">เบอร์ : {e.phone}</p>
-              <p className="text-xs">ไลน์ : {e.line}</p>
-            </div>
-            <div className="p-4 border-t sm:px-5 ">
-              <p className="text-xs text-gray-500 ">
-                อับเดตเมื่อ {date.toLocaleTimeString()}
-              </p>
-            </div>
-          </div>
+    <Link to={"/hotel"} state={{ hotel: e }}>
+      <hr className="my-1" />
+      <div className="flex gap-4">
+        <div className="bg-white rounded-sm shadow-lg p-2">
+          <img src={e.imageUrls[0]} alt="" className="w-28 h-28" />
+        </div>
+        <div>
+          <h1 className="text-blue-400">
+            {e.name}{" "}
+            {/* <span className="text-xs text-white rounded-lg bg-orange-500 px-2">
+              update !
+            </span> */}
+          </h1>
+          <h3 className="text-gray-400">{e.address}</h3>
+          <h1 className="text-gray-700">
+            {Utils.bath(e.min_price)} - {Utils.bath(e.max_price)} บาท/เดือน
+          </h1>
+          <a
+            className="text-xs text-blue-600 underline"
+            href={e.map_url}
+            target="_blank"
+          >
+            ดูแผนที่
+          </a>
         </div>
       </div>
-    </>
+
+      <hr className="my-1" />
+    </Link>
   );
 };
 
@@ -168,7 +154,7 @@ const CardMini = (props: { hotel: any }) => {
   return (
     <>
       <a href={e.map_url} target="_blank">
-        <div className="bg-white mb-4 h-40 border rounded-xl shadow-sm sm:flex   ">
+        <div className="bg-white mb-4  border rounded-xl shadow-sm sm:flex   ">
           <div>
             <figure className="max-h-[6rem]">
               <img

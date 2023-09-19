@@ -110,7 +110,7 @@ const LoginPage = (props: Props) => {
             <Field
               type="text"
               name="email"
-              className="border-2 py-3 px-4 block w-full  rounded-md text-sm focus:border-red-500 focus:ring-red-500 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400"
+              className="bg-gray-100 border-2 py-3 px-4 block w-full  rounded-md text-sm focus:border-red-500 focus:ring-red-500 "
               required
               aria-describedby="hs-validation-name-error-helper"
             />
@@ -126,7 +126,7 @@ const LoginPage = (props: Props) => {
             <Field
               type="password"
               name="password"
-              className=" border-2 py-3 px-4 block w-full  rounded-md text-sm focus:border-green-500 focus:ring-green-500 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400"
+              className="bg-gray-100 border-2 py-3 px-4 block w-full  rounded-md text-sm focus:border-green-500 focus:ring-green-500 "
               required
               aria-describedby="hs-validation-name-success-helper"
             />
@@ -137,18 +137,10 @@ const LoginPage = (props: Props) => {
 
           <button
             type="submit"
-            className="mt-5 text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+            className="mt-5 text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300  font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
           >
             เข้าสู่ระบบ
           </button>
-          {/* <button
-            onClick={() => {
-              getUser("b@b.com");
-            }}
-            className="mt-5 text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
-          >
-            ddd
-          </button> */}
         </div>
       </Form>
     </Formik>
