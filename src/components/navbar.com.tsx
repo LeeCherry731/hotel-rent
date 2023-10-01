@@ -1,11 +1,13 @@
 import { signOut } from "firebase/auth";
 import React, { useEffect, useState } from "react";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
-import { auth } from "../configs/firebase.config";
+import { auth, dbHotels } from "../configs/firebase.config";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../stores/store";
 import { Role } from "../interfaces/role.enum";
 import { logout, setDefaltUser, setUser } from "../stores/users/userSlice";
+import { useFormik } from "formik";
+import { getDocs } from "firebase/firestore";
 type Props = {};
 
 const NavBarCom = (props: Props) => {
@@ -18,10 +20,6 @@ const NavBarCom = (props: Props) => {
     setIsOpen(!isOpen);
   };
 
-  useEffect(() => {
-    // dispatch(setDefaltUser());
-  }, []);
-
   const toLoginPage = () => {
     navigation("/auth/login");
   };
@@ -33,16 +31,7 @@ const NavBarCom = (props: Props) => {
       .then((res) => {
         console.log(res);
         alert(`ออกจากระบบ สำเร็จ`);
-        // localStorage.setItem("accessToken", res.)
-        // const userInfo = {
-        //   name: "",
-        //   email: "",
-        //   role: Role.none,
-        //   phone: "",
-        //   line: "",
-        // };
         dispatch(logout());
-        // console.log(userInfo);
         console.log(user);
         navigation("/");
       })
@@ -50,6 +39,49 @@ const NavBarCom = (props: Props) => {
         alert(err.message);
       });
   };
+  const [hotels, setHotels] = useState<any[]>([]);
+  const [hotelsD, setHotelsD] = useState<any[]>([]);
+  const getHotels = async () => {
+    const data = await getDocs(dbHotels);
+    const hotels = data.docs.map((doc) => {
+      return { ...doc.data(), id: doc.id };
+    });
+    setHotelsD(hotels);
+    setHotels(hotels);
+  };
+
+  useEffect(() => {
+    getHotels();
+  }, []);
+
+  const formik = useFormik({
+    initialValues: {
+      search: "",
+    },
+    onSubmit: (values) => {
+      console.log(values);
+      let newHotels = hotelsD;
+
+      newHotels = newHotels.filter((e) => {
+        const text = `
+        ${e.type.toLowerCase()} 
+        ${e.name.toLowerCase()} 
+        ${e.address.toLowerCase()}
+        ${e.phone.toLowerCase()}
+        ${e.line.toLowerCase()}
+        ${e.min_price.toString()}
+        ${e.max_price.toString()}
+        `;
+        console.log(text);
+        // const eA = e.address.toLowerCase();
+        const eV = values.search.toLowerCase();
+        const isIn = text.includes(eV);
+        return isIn;
+      });
+
+      setHotels(newHotels);
+    },
+  });
 
   return (
     <header className="flex flex-wrap md:justify-start md:flex-nowrap z-50 w-full bg-white text-sm py-3 md:py-0 ">
@@ -64,19 +96,104 @@ const NavBarCom = (props: Props) => {
                 className="flex-none text-xl font-semibold "
                 aria-label="Brand"
               >
-                Brand
+                Hotels
               </p>
             </NavLink>
-            <input
-              onClick={() => {
-                if (router.pathname !== "/hotels/search") {
-                  navigation("/hotels/search");
-                }
-              }}
-              type="text"
-              className="mx-2 md:min-w-[400px] py-2 px-5 block w-full border-2 border-gray-40000 rounded-full text-sm focus:border-blue-500 focus:ring-blue-500 "
-              placeholder="ค้นหาหอพัก"
-            ></input>
+            <div>
+              <form
+                onClick={() => {
+                  if (router.pathname !== "/hotels/search") {
+                    navigation("/hotels/search");
+                  }
+                }}
+                onSubmit={formik.handleSubmit}
+                className="md:w-[350px] ml-3"
+              >
+                <label className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">
+                  ค้นหา
+                </label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                    <svg
+                      className="w-4 h-4 text-gray-500 dark:text-gray-400"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        stroke="currentColor"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+                      />
+                    </svg>
+                  </div>
+                  <input
+                    type="search"
+                    className="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 "
+                    placeholder="ค้นหาหอพัก..."
+                    name="search"
+                    onChange={(e) => {
+                      formik.handleChange(e);
+                      formik.submitForm();
+                    }}
+                    required
+                  />
+                  <button
+                    type="submit"
+                    className="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                  >
+                    ค้นหา
+                  </button>
+                </div>
+              </form>
+              <div className="float-left absolute z-40 max-[300px]  shadow-2xl">
+                {formik.values.search === "" ? (
+                  <></>
+                ) : hotels.length === 0 ? (
+                  <div className="bg-white shadow-2xl px-10 flex justify-center align-middle ">
+                    <h1>ไม่พอหอพัก</h1>
+                  </div>
+                ) : (
+                  hotels.map((e) => (
+                    <>
+                      <Link to={"/hotel"} state={{ hotel: e }}>
+                        <ul className="max-w-md divide-y divide-gray-200 bg-white px-8">
+                          <li className="pb-3 sm:pb-4">
+                            <div className="flex items-center space-x-4">
+                              <div className="flex-shrink-0">
+                                <div className="bg-white rounded-sm shadow-lg p-2">
+                                  <img
+                                    src={e.imageUrls[0]}
+                                    alt=""
+                                    className="w-12 h-12"
+                                  />
+                                </div>
+                              </div>
+                              <div className="flex-1 min-w-0">
+                                <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                  {e.name}
+                                </p>
+                                <p className="text-xs">ที่อยู่ : {e.address}</p>
+                                <p className="text-xs">เบอร์ : {e.phone}</p>
+                                <p className="text-xs">ไลน์ : {e.line}</p>
+                              </div>
+                              <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                                <p className="text-xs">
+                                  ราคา {e.min_price} - {e.max_price}
+                                </p>
+                              </div>
+                            </div>
+                          </li>
+                        </ul>
+                      </Link>
+                    </>
+                  ))
+                )}
+              </div>
+            </div>
             <div className="md:hidden">
               <button
                 type="button"

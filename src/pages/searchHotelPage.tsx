@@ -23,7 +23,6 @@ const SearchHotelPage = (props: Props) => {
     setHotelsD(hotels);
 
     setHotels(hotels);
-    console.log(hotels);
   };
 
   const formik = useFormik({

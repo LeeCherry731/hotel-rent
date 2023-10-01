@@ -8,6 +8,7 @@ type Props = {};
 
 const ShowHotelPage = (props: Props) => {
   const [index, setindex] = useState(0);
+  const [showModal, setshowModal] = useState(false);
 
   const location = useLocation();
   const { hotel } = location.state;
@@ -16,17 +17,34 @@ const ShowHotelPage = (props: Props) => {
   return (
     <>
       <NavBarCom />
+
+      <div
+        onClick={() => {
+          setshowModal((e) => !e);
+        }}
+        className={`fixed top-20 left-20 right-20 z-50 w-full bg-black bg-opacity-60 ${
+          showModal ? "" : "hidden"
+        } w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full`}
+      >
+        <div className="w-full flex justify-center">
+          <img src={e.imageUrls[index]} alt="..." />
+        </div>
+      </div>
+
       <br />
       <div className="relative w-full max-w-[85rem] mx-auto">
         <div className="bg-white px-4 min-h-full pt-4">
-          <div className="relative h-56 overflow-hidden rounded-lg md:h-96">
-            <div className=" duration-700 ease-in-out" datatype="slide">
-              <img
-                src={e.imageUrls[index]}
-                className="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
-                alt="..."
-              />
-            </div>
+          <div
+            onClick={() => {
+              setshowModal((e) => !e);
+            }}
+            className="relative h-80 overflow-hidden rounded-lg md:h-[1000px]"
+          >
+            <img
+              src={e.imageUrls[index]}
+              className="absolute block w-full h-[1000px]"
+              alt="..."
+            />
           </div>
 
           <hr className="my-4" />
