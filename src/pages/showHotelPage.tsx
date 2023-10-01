@@ -22,7 +22,7 @@ const ShowHotelPage = (props: Props) => {
         onClick={() => {
           setshowModal((e) => !e);
         }}
-        className={`fixed top-20 left-20 right-20 z-50 w-full bg-black bg-opacity-60 ${
+        className={`fixed md:top-20 md:left-20 md:right-20 z-50 w-full bg-black bg-opacity-60 ${
           showModal ? "" : "hidden"
         } w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full`}
       >

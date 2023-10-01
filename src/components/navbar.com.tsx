@@ -179,8 +179,11 @@ const NavBarCom = (props: Props) => {
                                 <p className="text-xs">ที่อยู่ : {e.address}</p>
                                 <p className="text-xs">เบอร์ : {e.phone}</p>
                                 <p className="text-xs">ไลน์ : {e.line}</p>
+                                <p className="text-xs md:hidden  ">
+                                  ราคา {e.min_price} - {e.max_price}
+                                </p>
                               </div>
-                              <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                              <div className=" hidden md:block inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
                                 <p className="text-xs">
                                   ราคา {e.min_price} - {e.max_price}
                                 </p>
