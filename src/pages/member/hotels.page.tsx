@@ -23,7 +23,9 @@ const HotelsPage = (props: Props) => {
       });
       setHotels(newHotels);
     }
-    setHotels(hotels);
+    if (user.role === Role.admin) {
+      setHotels(hotels);
+    }
   };
 
   useEffect(() => {
