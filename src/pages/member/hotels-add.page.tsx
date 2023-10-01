@@ -140,7 +140,7 @@ const HotelsAddPage = (props: Props) => {
   };
 
   return (
-    <div className="w-full bg-white rounded-md p-5">
+    <div className="w-full bg-white rounded-md p-5 md:w-[1000px]">
       <Formik initialValues={initialValues} onSubmit={onSubmit}>
         <Form>
           <div className="grid gap-6 mb-6 md:grid-cols-2">
