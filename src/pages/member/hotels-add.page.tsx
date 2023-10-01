@@ -205,7 +205,7 @@ const HotelsAddPage = (props: Props) => {
               <ErrorMessage name="phone" />
             </div>
           </div>
-          <div className="mb-3">
+          {/* <div className="mb-3">
             <label
               htmlFor="min_price"
               className="block mb-2 text-sm font-medium text-gray-900 "
@@ -221,14 +221,14 @@ const HotelsAddPage = (props: Props) => {
               required
             />
             <ErrorMessage name="min_price" />
-          </div>
+          </div> */}
           <div className="grid gap-6 mb-6 md:grid-cols-2">
             <div>
               <label
                 htmlFor="min_price"
                 className="block mb-2 text-sm font-medium text-gray-900 "
               >
-                ราคาต่ำที่สุด
+                ราคาต่อเดือนต่ำที่สุด
               </label>
               <Field
                 type="number"
@@ -245,7 +245,7 @@ const HotelsAddPage = (props: Props) => {
                 htmlFor="first_name"
                 className="block mb-2 text-sm font-medium text-gray-900 "
               >
-                ราคาสูงที่สุด
+                ราคาต่อเดือนสูงที่สุด
               </label>
               <Field
                 type="number"
@@ -500,7 +500,7 @@ const HotelsAddPage = (props: Props) => {
             </Field>
           </div>
 
-          <div className="my-8">
+          {/* <div className="my-8">
             <label className="relative inline-flex items-center mr-5 cursor-pointer">
               <Field type="checkbox" name="promote" className="sr-only peer" />
               <div className="w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700 peer-focus:ring-4 peer-focus:ring-green-300 dark:peer-focus:ring-green-800 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-green-600"></div>
@@ -508,7 +508,7 @@ const HotelsAddPage = (props: Props) => {
                 แนะนำ
               </span>
             </label>
-          </div>
+          </div> */}
 
           <div className="p-5 grid grid-cols-3 gap-4 place-content-center">
             {files === null ? (

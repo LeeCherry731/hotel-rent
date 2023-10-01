@@ -90,12 +90,12 @@ const SearchHotelPage = (props: Props) => {
         return e.type === values.type;
       });
 
-      newHotels = newHotels.filter((e) => {
-        const eA = e.address.toLowerCase();
-        const eV = values.address.toLowerCase();
-        const isIn = eA.includes(eV);
-        return isIn;
-      });
+      // newHotels = newHotels.filter((e) => {
+      //   const eA = e.address.toLowerCase();
+      //   const eV = values.address.toLowerCase();
+      //   const isIn = eA.includes(eV);
+      //   return isIn;
+      // });
 
       if (values.car_park === true) {
         newHotels = newHotels.filter((e) => {
@@ -197,7 +197,7 @@ const SearchHotelPage = (props: Props) => {
             <div className="bg-zinc-100 w-full rounded-md p-3">
               <div className="flex">
                 <h1>ค้นหา ทั้งหมด ({hotelsD.length})</h1>
-                <h1 className="ml-2">
+                {/* <h1 className="ml-2">
                   | หอพักรวมชายหญิง (
                   {hotelsD.reduce((a, b) => {
                     if (b.type === "หอพักรวมชายหญิง") {
@@ -206,7 +206,7 @@ const SearchHotelPage = (props: Props) => {
                     return a;
                   }, 0)}
                   )
-                </h1>
+                </h1> */}
 
                 <h1 className="ml-2">
                   | หอพักชายล้วน (
@@ -519,7 +519,7 @@ const SearchHotelPage = (props: Props) => {
                   <option value="หอพักหญิงล้วน">หอพักหญิงล้วน</option>
                 </select>
               </div>
-              <div className="my-3">
+              {/* <div className="my-3">
                 <label className="block mb-2 text-sm font-medium text-gray-900 ">
                   ที่อยู่
                 </label>
@@ -535,7 +535,7 @@ const SearchHotelPage = (props: Props) => {
                   placeholder="ที่อยู่"
                   className="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500"
                 />
-              </div>
+              </div> */}
               <div className="mb-6 mt-3 flex gap-2">
                 <div>
                   <label className="block mb-2 text-sm font-medium text-gray-900 ">

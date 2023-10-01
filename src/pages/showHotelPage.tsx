@@ -194,10 +194,10 @@ const ShowHotelPage = (props: Props) => {
                 {e.motorcycle_park ? (
                   <div className="flex gap-2">
                     <input type="checkbox" defaultChecked />
-                    <p>ที่จอดรถยนต์</p>
+                    <p>ที่จอดมอเตอร์ไซต์</p>
                   </div>
                 ) : (
-                  <p className="line-through">ที่จอดรถยนต์</p>
+                  <p className="line-through">ที่จอดมอเตอร์ไซต์</p>
                 )}
               </p>
               <p className="text-lg">

@@ -39,7 +39,7 @@ const MainLayout = () => {
       <NavBarCom />
       <div className="flex align-middle justify-center my-10">
         <h1 className="text-3xl text-slate-800">
-          รวมอพาร์ทเม้นท์ ที่พัก หอพัก ทั่วประเทศ
+          รวมอพาร์ทเม้นท์ ที่พัก หอพัก
         </h1>
       </div>
       <div className="w-full bg-gray-500">

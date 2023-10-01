@@ -96,7 +96,7 @@ const NavBarCom = (props: Props) => {
                 className="flex-none text-xl font-semibold "
                 aria-label="Brand"
               >
-                Hotels
+                Resident
               </p>
             </NavLink>
             <div>
