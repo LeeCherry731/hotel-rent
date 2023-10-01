@@ -19,7 +19,7 @@ const HotelsAddPage = (props: Props) => {
     address: "",
     phone: "",
     line: "",
-    type: "",
+    type: "หอพักรวมชายหญิง",
     map_url: "",
 
     price: 0,

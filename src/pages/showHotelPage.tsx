@@ -22,9 +22,9 @@ const ShowHotelPage = (props: Props) => {
         onClick={() => {
           setshowModal((e) => !e);
         }}
-        className={`fixed md:top-20 md:left-20 md:right-20 z-50 w-full bg-black bg-opacity-60 ${
+        className={`fixed top-0   z-50 w-full  bg-black bg-opacity-60   p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full ${
           showModal ? "" : "hidden"
-        } w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full`}
+        }`}
       >
         <div className="w-full flex justify-center">
           <img src={e.imageUrls[index]} alt="..." />
@@ -34,18 +34,14 @@ const ShowHotelPage = (props: Props) => {
       <br />
       <div className="relative w-full max-w-[85rem] mx-auto">
         <div className="bg-white px-4 min-h-full pt-4">
-          <div
+          <img
             onClick={() => {
               setshowModal((e) => !e);
             }}
-            className="relative h-80 overflow-hidden rounded-lg md:h-[1000px]"
-          >
-            <img
-              src={e.imageUrls[index]}
-              className="absolute block w-full h-[1000px]"
-              alt="..."
-            />
-          </div>
+            src={e.imageUrls[index]}
+            className="object-contain   rounded-lg  w-full max-h-[700px]"
+            alt="..."
+          />
 
           <hr className="my-4" />
           <div className="w-full flex gap-2 overflow-x-scroll ">
