@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import NavBarCom from "../components/navbar.com";
 import { getDocs } from "firebase/firestore";
 import { dbHotels } from "../configs/firebase.config";
-import { useFormik } from "formik";
+import { Field, useFormik } from "formik";
 import Utils from "../utils/utils";
 import { Link } from "react-router-dom";
 
@@ -47,11 +47,13 @@ const SearchHotelPage = (props: Props) => {
       pet: false,
       cigarette: false,
       security: false,
+
       cctv: false,
       elevator: false,
       laundry_service: false,
       motorcycle_park: false,
       air: false,
+
       fan: false,
       fridge: false,
       furniture: false,
@@ -59,17 +61,19 @@ const SearchHotelPage = (props: Props) => {
       tv: false,
     },
     onSubmit: (values) => {
-      console.log(values);
+      // console.log(values);
       // console.log(values.range_min);
       // console.log(values.range_max);
+      console.log(values.car_park);
+      // console.log(values.cctv);
 
       setHotels(hotelsD);
 
       let newHotels = hotelsD;
-      if (values.type === "all") {
-        setHotels(newHotels);
-        return;
-      }
+      // if (values.type === "all") {
+      //   setHotels(newHotels);
+      //   return;
+      // }
 
       newHotels = newHotels.filter((e) => {
         return (
@@ -79,8 +83,11 @@ const SearchHotelPage = (props: Props) => {
       });
 
       newHotels = newHotels.filter((e) => {
-        console.log(e.type);
-        console.log(values.type);
+        // console.log(e.type);
+        // console.log(values.type);
+        if (values.type === "all") {
+          return true;
+        }
         return e.type === values.type;
       });
 
@@ -185,11 +192,44 @@ const SearchHotelPage = (props: Props) => {
       <NavBarCom />
 
       <div className=" w-full flex justify-center">
-        <div className="bg-white w-full max-w-5xl rounded-lg mt-5 shadow-xl p-7">
+        <div className="bg-white w-full max-w-6xl rounded-lg mt-5 shadow-xl p-7">
           <div className="">
             <h1 className="text-2xl">อพาร์ทเม้นท์ หอพัก ที่อยู่</h1>
             <div className="bg-zinc-100 w-full rounded-md p-3">
-              <h1>ค้นหา ทั้งหมด ({hotelsD.length})</h1>
+              <div className="flex">
+                <h1>ค้นหา ทั้งหมด ({hotelsD.length})</h1>
+                <h1 className="ml-2">
+                  | หอพักรวมชายหญิง (
+                  {hotelsD.reduce((a, b) => {
+                    if (b.type === "หอพักรวมชายหญิง") {
+                      return a + 1;
+                    }
+                    return a;
+                  }, 0)}
+                  )
+                </h1>
+
+                <h1 className="ml-2">
+                  | หอพักชายล้วน (
+                  {hotelsD.reduce((a, b) => {
+                    if (b.type === "หอพักชายล้วน") {
+                      return a + 1;
+                    }
+                    return a;
+                  }, 0)}
+                  )
+                </h1>
+                <h1 className="ml-2">
+                  | หอพักหญิงล้วน (
+                  {hotelsD.reduce((a, b) => {
+                    if (b.type === "หอพักหญิงล้วน") {
+                      return a + 1;
+                    }
+                    return a;
+                  }, 0)}
+                  )
+                </h1>
+              </div>
               <hr
                 className=" bg-white text-white "
                 style={{ height: "1.5px" }}
@@ -350,10 +390,10 @@ const SearchHotelPage = (props: Props) => {
                           {e.motorcycle_park ? (
                             <div className="flex gap-2">
                               <input type="checkbox" defaultChecked />
-                              <p>ที่จอดรถยนต์</p>
+                              <p>ที่จอดรถมอเตอร์ไซค์</p>
                             </div>
                           ) : (
-                            <p className="line-through">ที่จอดรถยนต์</p>
+                            <p className="line-through">ที่จอดรถมอเตอร์ไซค์</p>
                           )}
                         </p>
                         <p className="text-xs">
@@ -450,7 +490,8 @@ const SearchHotelPage = (props: Props) => {
                 />
               </svg>
             </button>
-            <div
+            <form
+              onSubmit={formik.handleSubmit}
               className={`${
                 open ? "hidden" : ""
               } md:block bg-gray-100 md:bg-transparent absolute rounded-lg p-5  top-0 right-0 `}
@@ -463,13 +504,14 @@ const SearchHotelPage = (props: Props) => {
                 <label className="block mb-2 text-sm font-medium text-gray-900 ">
                   ประเภทหอพัก
                 </label>
+
                 <select
-                  id="countries"
                   name="type"
                   onChange={(e) => {
                     formik.handleChange(e);
                     onChangeFilter();
                   }}
+                  value={formik.values.type}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                 >
                   <option value="all">ทั้งหมด</option>
@@ -489,6 +531,7 @@ const SearchHotelPage = (props: Props) => {
                   }}
                   type="text"
                   name="address"
+                  value={formik.values.address}
                   id="small-input"
                   placeholder="ที่อยู่"
                   className="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500"
@@ -506,6 +549,7 @@ const SearchHotelPage = (props: Props) => {
                     }}
                     type="number"
                     name="range_min"
+                    value={formik.values.range_min}
                     id="small-input"
                     placeholder="1,000"
                     className="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500"
@@ -522,6 +566,7 @@ const SearchHotelPage = (props: Props) => {
                     }}
                     type="number"
                     name="range_max"
+                    value={formik.values.range_max}
                     id="small-input"
                     placeholder="10,000"
                     className="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500"
@@ -725,7 +770,7 @@ const SearchHotelPage = (props: Props) => {
                   อนุญาตให้สูบบุหรี่
                 </label>
               </div>
-            </div>
+            </form>
           </div>
           <div className="h-screen"></div>
         </div>

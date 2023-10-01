@@ -1,6 +1,6 @@
 import { signOut } from "firebase/auth";
 import React, { useEffect, useState } from "react";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { auth } from "../configs/firebase.config";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../stores/store";
@@ -12,6 +12,7 @@ const NavBarCom = (props: Props) => {
   const [isOpen, setIsOpen] = useState(false);
   const user = useSelector((state: RootState) => state.user);
   const navigation = useNavigate();
+  const router = useLocation();
   const dispatch = useDispatch();
   const toggle = () => {
     setIsOpen(!isOpen);
@@ -68,10 +69,12 @@ const NavBarCom = (props: Props) => {
             </NavLink>
             <input
               onClick={() => {
-                navigation("/hotels/search");
+                if (router.pathname !== "/hotels/search") {
+                  navigation("/hotels/search");
+                }
               }}
               type="text"
-              className="mx-2 py-2 px-5 block w-full border-2 border-gray-40000 rounded-full text-sm focus:border-blue-500 focus:ring-blue-500 "
+              className="mx-2 md:min-w-[400px] py-2 px-5 block w-full border-2 border-gray-40000 rounded-full text-sm focus:border-blue-500 focus:ring-blue-500 "
               placeholder="ค้นหาหอพัก"
             ></input>
             <div className="md:hidden">

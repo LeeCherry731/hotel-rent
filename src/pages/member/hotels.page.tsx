@@ -4,6 +4,7 @@ import { Link, NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "../../stores/store";
 import { db, dbHotels } from "../../configs/firebase.config";
+import { Role } from "../../interfaces/role.enum";
 
 type Props = {};
 
@@ -16,10 +17,13 @@ const HotelsPage = (props: Props) => {
       console.log(doc.data());
       return { ...doc.data(), id: doc.id };
     });
-    const newHotels = hotels.filter((e: any) => {
-      return e.userId === user.id;
-    });
-    setHotels(newHotels);
+    if (user.role === Role.member) {
+      const newHotels = hotels.filter((e: any) => {
+        return e.userId === user.id;
+      });
+      setHotels(newHotels);
+    }
+    setHotels(hotels);
   };
 
   useEffect(() => {

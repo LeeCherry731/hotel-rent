@@ -9,7 +9,7 @@ const TableHotelHome = (props: Props) => {
   const hotels = props.hotels.slice(0, 8);
   return (
     <>
-      <div className="overflow-x-auto shadow-md sm:rounded-lg p-4 bg-white mx-5">
+      <div className="overflow-x-auto shadow-md sm:rounded-lg p-4 bg-white mx-5 md:w-[650px]">
         {hotels.map((e) => (
           <Link to={"/hotel"} state={{ hotel: e }}>
             <hr className="my-1" />
