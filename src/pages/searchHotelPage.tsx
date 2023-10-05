@@ -34,8 +34,8 @@ const SearchHotelPage = (props: Props) => {
       line: "",
       map_url: "",
 
-      range_min: 1,
-      range_max: 10000000,
+      range_min: 0,
+      range_max: 0,
       range: 0,
 
       min_price: 0,
@@ -75,6 +75,7 @@ const SearchHotelPage = (props: Props) => {
       // }
 
       newHotels = newHotels.filter((e) => {
+        if (values.range_min === 0 && values.range_max === 0) return true;
         return (
           parseInt(e.min_price) >= values.range_min &&
           parseInt(e.max_price) <= values.range_max
@@ -268,8 +269,8 @@ const SearchHotelPage = (props: Props) => {
                           >
                             ดูแผนที่
                           </a>
-                          <p className="text-xs">เบอร์ : {e.phone}</p>
-                          <p className="text-xs">ไลน์ : {e.line}</p>
+                          <p className="text-xs">เบอร์โทร : {e.phone}</p>
+                          <p className="text-xs">ไอดีไลน์ : {e.line}</p>
                         </div>
                         <div>
                           <p className="text-xs">
@@ -287,10 +288,10 @@ const SearchHotelPage = (props: Props) => {
                             จ่ายล่วงหน้า : {Utils.bath(e.prepay)}
                           </p>
                           <p className="text-xs">
-                            ค่าไฟ :{Utils.bath(e.electricity_bill)}
+                            ค่าไฟ :{Utils.bath(e.electricity_bill)} /ยูนิต
                           </p>
                           <p className="text-xs">
-                            ค่าน้ำ : {Utils.bath(e.water_bill)}
+                            ค่าน้ำ : {Utils.bath(e.water_bill)} /ยูนิต
                           </p>
                         </div>
                       </div>

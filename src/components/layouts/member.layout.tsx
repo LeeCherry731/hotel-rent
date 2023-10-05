@@ -62,7 +62,7 @@ const MemberLayout = (props: Props) => {
           </h5>
           <div className="py-4 overflow-y-auto">
             <ul className="space-y-2 font-medium">
-              <li>
+              {/* <li>
                 <Link
                   to={"/member"}
                   className="flex items-center p-2 text-gray-900 rounded-lg  hover:bg-gray-100  group"
@@ -79,7 +79,7 @@ const MemberLayout = (props: Props) => {
                   </svg>
                   <span className="ml-3">Dashboard</span>
                 </Link>
-              </li>
+              </li> */}
               <li>
                 <Link
                   to={"/member/hotels"}

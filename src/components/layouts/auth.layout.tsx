@@ -12,12 +12,7 @@ const AuthLayout = (props: Props) => {
         <div className="max-w-[85rem] w-full mx-auto px-4">
           <div className="flex items-center justify-between">
             <NavLink to={"/"}>
-              <p
-                className="flex-none text-xl font-semibold "
-                aria-label="Brand"
-              >
-                Brand
-              </p>
+              <p className="flex-none text-xl font-semibold ">Resident</p>
             </NavLink>
             <div className="py-2">
               <button>

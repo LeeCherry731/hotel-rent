@@ -4,7 +4,6 @@ import LoginPage from "./pages/login.page";
 import MemberLayout from "./components/layouts/member.layout";
 import AdminLayout from "./components/layouts/admin.layout";
 import AuthLayout from "./components/layouts/auth.layout";
-import MemberDashboard from "./pages/member/dashboard.page";
 import RegisterPage from "./pages/register.page";
 import HotelsPage from "./pages/member/hotels.page";
 import HotelsAddPage from "./pages/member/hotels-add.page";
@@ -44,10 +43,6 @@ const router = createBrowserRouter([
     path: "member",
     Component: MemberLayout,
     children: [
-      {
-        path: "",
-        Component: MemberDashboard,
-      },
       {
         path: "hotels",
         Component: HotelsPage,

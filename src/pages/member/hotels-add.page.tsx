@@ -193,7 +193,7 @@ const HotelsAddPage = (props: Props) => {
             </div>
             <div>
               <label className="block mb-2 text-sm font-medium text-gray-900 ">
-                Line
+                ID
               </label>
               <Field
                 type="text"
@@ -289,7 +289,7 @@ const HotelsAddPage = (props: Props) => {
           <div className="grid gap-6 mb-6 md:grid-cols-2">
             <div>
               <label className="block mb-2 text-sm font-medium text-gray-900 ">
-                ค่าไฟ
+                ค่าไฟ/ยูนิต
               </label>
               <Field
                 type="number"
@@ -302,7 +302,7 @@ const HotelsAddPage = (props: Props) => {
             </div>
             <div>
               <label className="block mb-2 text-sm font-medium text-gray-900 ">
-                ค่าน้ำ
+                ค่าน้ำ/ยูนิต
               </label>
               <Field
                 type="number"

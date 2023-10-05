@@ -24,7 +24,7 @@ const NavBarCom = (props: Props) => {
     navigation("/auth/login");
   };
   const onDashboard = () => {
-    navigation("/member");
+    navigation("/member/hotels");
   };
   const onSignOut = () => {
     signOut(auth)
@@ -92,12 +92,7 @@ const NavBarCom = (props: Props) => {
         <div className="relative md:flex md:items-center md:justify-between">
           <div className="flex items-center justify-between">
             <NavLink to={"/"}>
-              <p
-                className="flex-none text-xl font-semibold "
-                aria-label="Brand"
-              >
-                Resident
-              </p>
+              <p className="flex-none text-xl font-semibold ">Resident</p>
             </NavLink>
             <div>
               <form
@@ -177,8 +172,8 @@ const NavBarCom = (props: Props) => {
                                   {e.name}
                                 </p>
                                 <p className="text-xs">ที่อยู่ : {e.address}</p>
-                                <p className="text-xs">เบอร์ : {e.phone}</p>
-                                <p className="text-xs">ไลน์ : {e.line}</p>
+                                <p className="text-xs">เบอร์โทร : {e.phone}</p>
+                                <p className="text-xs">ไอดีไลน์ : {e.line}</p>
                                 <p className="text-xs md:hidden  ">
                                   ราคา {e.min_price} - {e.max_price}
                                 </p>
@@ -240,10 +235,7 @@ const NavBarCom = (props: Props) => {
             <div className="overflow-hidden overflow-y-auto max-h-[75vh] scrollbar-y">
               <div className="flex flex-col gap-x-0 mt-5 divide-y divide-dashed divide-gray-200 md:flex-row md:items-center md:justify-end md:gap-x-7 md:mt-0 md:pl-7 md:divide-y-0 md:divide-solid ">
                 <NavLink to={"/"}>
-                  <p
-                    className="font-medium text-blue-600 py-3 md:py-6 "
-                    aria-label="Brand"
-                  >
+                  <p className="font-medium text-blue-600 py-3 md:py-6 ">
                     Home
                   </p>
                 </NavLink>

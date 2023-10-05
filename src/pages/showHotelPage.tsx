@@ -76,8 +76,8 @@ const ShowHotelPage = (props: Props) => {
                 >
                   ดูแผนที่
                 </a>
-                <p className="text-lg">เบอร์ : {e.phone}</p>
-                <p className="text-lg">ไลน์ : {e.line}</p>
+                <p className="text-lg">เบอร์โทร : {e.phone}</p>
+                <p className="text-lg">ไอดีไลน์ : {e.line}</p>
               </div>
               <div>
                 <p className="text-lg">
@@ -91,9 +91,11 @@ const ShowHotelPage = (props: Props) => {
                 <p className="text-lg">เงินประกัน : {Utils.bath(e.bail)}</p>
                 <p className="text-lg">จ่ายล่วงหน้า : {Utils.bath(e.prepay)}</p>
                 <p className="text-lg">
-                  ค่าไฟ :{Utils.bath(e.electricity_bill)}
+                  ค่าไฟ :{Utils.bath(e.electricity_bill)} /ยูนิต
                 </p>
-                <p className="text-lg">ค่าน้ำ : {Utils.bath(e.water_bill)}</p>
+                <p className="text-lg">
+                  ค่าน้ำ : {Utils.bath(e.water_bill)} /ยูนิต
+                </p>
               </div>
             </div>
           </div>

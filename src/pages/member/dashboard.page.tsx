@@ -1,9 +1,9 @@
-import React from "react";
+// import React from "react";
 
-type Props = {};
+// type Props = {};
 
-const MemberDashboard = (props: Props) => {
-  return <>MemberDashboard</>;
-};
+// const MemberDashboard = (props: Props) => {
+//   return <>MemberDashboard</>;
+// };
 
-export default MemberDashboard;
+// export default MemberDashboard;

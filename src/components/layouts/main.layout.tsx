@@ -38,9 +38,7 @@ const MainLayout = () => {
       <h1 className=" text-white text-end h-4 pr-5 bg-gradient-to-r from-indigo-400 from-10% via-sky-500 via-30% to-emerald-500 to-90%"></h1>
       <NavBarCom />
       <div className="flex align-middle justify-center my-10">
-        <h1 className="text-3xl text-slate-800">
-          รวมอพาร์ทเม้นท์ ที่พัก หอพัก
-        </h1>
+        <h1 className="text-3xl text-slate-800">Resident</h1>
       </div>
       <div className="w-full bg-gray-500">
         <Carousel />
@@ -48,7 +46,7 @@ const MainLayout = () => {
       <div className="w-full  mt-5 flex flex-col lg:flex-row gap-4 lg:gap-0 justify-center">
         <div className=" flex flex-col gap-4">
           <TableHotelHome hotels={hotels} />
-          <Content hotels={hotels} />
+          {/* <Content hotels={hotels} /> */}
         </div>
         <ContentCardMini hotels={hotels} />
       </div>
@@ -164,8 +162,8 @@ const CardMini = (props: { hotel: any }) => {
               />
             </figure>
             <div className="p-2">
-              <p className="text-xs">เบอร์ : {e.phone}</p>
-              <p className="text-xs">ไลน์ : {e.line}</p>
+              <p className="text-xs">เบอร์โทร : {e.phone}</p>
+              <p className="text-xs">ไอดีไลน์ : {e.line}</p>
             </div>
           </div>
 
