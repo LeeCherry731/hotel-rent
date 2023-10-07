@@ -6,7 +6,7 @@ type Props = {
 };
 
 const TableHotelHome = (props: Props) => {
-  const hotels = props.hotels.slice(0, 8);
+  const hotels = props.hotels;
   return (
     <>
       <div className="overflow-x-auto shadow-md sm:rounded-lg p-4 bg-white mx-5 md:w-[650px]">

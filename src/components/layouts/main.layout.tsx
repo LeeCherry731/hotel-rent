@@ -109,8 +109,6 @@ const ContentCardMini = (props: { hotels: any[] }) => {
 
 const Card = (props: { hotel: any }) => {
   const e = props.hotel;
-  const timeStamp = e.created_at;
-  const date = new Date(timeStamp.seconds);
 
   return (
     <Link to={"/hotel"} state={{ hotel: e }}>
