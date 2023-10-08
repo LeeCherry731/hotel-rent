@@ -487,7 +487,7 @@ const HotelsAddPage = (props: Props) => {
 
           <div className="mt-5">
             <label className="block mb-2 text-sm font-medium text-gray-900 ">
-              ประเภทหอพัง
+              ประเภทหอพัก
             </label>
             <Field
               as="select"

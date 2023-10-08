@@ -274,10 +274,10 @@ const SearchHotelPage = (props: Props) => {
                         </div>
                         <div>
                           <p className="text-xs">
-                            ราคาต่ำที่สุด : {Utils.bath(e.min_price)}
+                            ราคาต่อเดือนต่ำที่สุด : {Utils.bath(e.min_price)}
                           </p>
                           <p className="text-xs">
-                            ราคาสูงที่สุด : {Utils.bath(e.max_price)}
+                            ราคาต่อเดือนสูงที่สุด : {Utils.bath(e.max_price)}
                           </p>
                           <hr className="my-1" />
 

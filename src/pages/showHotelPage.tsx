@@ -81,10 +81,10 @@ const ShowHotelPage = (props: Props) => {
               </div>
               <div>
                 <p className="text-lg">
-                  ราคาต่ำที่สุด : {Utils.bath(e.min_price)}
+                  ราคาต่อเดือนต่ำที่สุด : {Utils.bath(e.min_price)}
                 </p>
                 <p className="text-lg">
-                  ราคาสูงที่สุด : {Utils.bath(e.max_price)}
+                  ราคาต่อเดือนสูงที่สุด : {Utils.bath(e.max_price)}
                 </p>
                 <hr className="my-1" />
 
